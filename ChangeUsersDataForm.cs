@@ -27,5 +27,81 @@ namespace Lab7_Bd_Mk2_Entity
         {
             //SELECT * FROM sys.database_principals where (type='S' or type = 'U')
         }
+
+        /*
+        private void UpdateRowsDataGrid1(string tableName)
+        {
+            currentTableName = tableName;
+            clearDataGridView();
+
+            switch (tableName)
+            {
+                case "Рейс":
+                    LinkedList<FlightRow> tablesFlight = db.GetFlightRows();
+
+                    foreach (string name in FlightRow.namesColumn)
+                    {
+                        DataGridViewTextBoxColumn dataGridViewColumn = new DataGridViewTextBoxColumn();
+                        dataGridViewColumn.HeaderText = name;
+                        dataGridViewColumn.Name = name;
+                        dataGridView1.Columns.Add(dataGridViewColumn);
+                    }
+                    foreach (FlightRow row in tablesFlight)
+                    {
+                        dataGridView1.Rows.Add(row.GetArrayStr());
+                    }
+                    break;
+
+                case "Владелец":
+                    LinkedList<OwnerRow> tablesOwner = db.GetOwnerRows();
+
+                    foreach (string name in OwnerRow.namesColumn)
+                    {
+                        DataGridViewTextBoxColumn dataGridViewColumn = new DataGridViewTextBoxColumn();
+                        dataGridViewColumn.HeaderText = name;
+                        dataGridViewColumn.Name = name;
+
+                        dataGridView1.Columns.Add(dataGridViewColumn);
+                    }
+                    foreach (OwnerRow row in tablesOwner)
+                    {
+                        dataGridView1.Rows.Add(row.GetArrayStr());
+                    }
+                    break;
+
+                case "Авиакомпания":
+                    LinkedList<AirlineRow> tablesAirline = db.GetAirlineRows();
+
+                    foreach (string name in AirlineRow.namesColumn)
+                    {
+                        DataGridViewTextBoxColumn dataGridViewColumn = new DataGridViewTextBoxColumn();
+                        dataGridViewColumn.HeaderText = name;
+                        dataGridViewColumn.Name = name;
+                        dataGridView1.Columns.Add(dataGridViewColumn);
+                    }
+                    foreach (AirlineRow row in tablesAirline)
+                    {
+                        dataGridView1.Rows.Add(row.GetArrayStr());
+                    }
+                    break;
+
+                case "Самолет":
+                    LinkedList<AirplaneRow> tablesAirplane = db.GetAirplaneRows();
+
+                    foreach (string name in AirplaneRow.namesColumn)
+                    {
+                        DataGridViewTextBoxColumn dataGridViewColumn = new DataGridViewTextBoxColumn();
+                        dataGridViewColumn.HeaderText = name;
+                        dataGridViewColumn.Name = name;
+                        dataGridView1.Columns.Add(dataGridViewColumn);
+                    }
+                    foreach (AirplaneRow row in tablesAirplane)
+                    {
+                        dataGridView1.Rows.Add(row.GetArrayStr());
+                    }
+                    break;
+            }
+
+        }*/
     }
 }

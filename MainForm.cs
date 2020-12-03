@@ -24,7 +24,6 @@ namespace Lab7_Bd_Mk2_Entity
         }
 
         
-
         private void splitContainer1_Panel2_Paint(object sender, PaintEventArgs e)
         {
 
@@ -33,6 +32,13 @@ namespace Lab7_Bd_Mk2_Entity
         private void flowLayoutPanel2_Paint(object sender, PaintEventArgs e)
         {
 
+        }
+
+        private void UpdateFormRowsDataGridView (string tableName)
+        {
+            currentTableName = tableName;
+            DatabaseFormElementsInstruments inst = new DatabaseFormElementsInstruments();
+            inst.UpdateRowsDataGridView(tableName, dataGridView1, db);
         }
 
         private void loginButton_Click(object sender, EventArgs e)
@@ -44,89 +50,15 @@ namespace Lab7_Bd_Mk2_Entity
                 nameUserTextBox.Text = db.currentNameUser;
                 namesTablesComboBox.Items.Clear();
                 namesTablesComboBox.Items.AddRange(db.GetNamesTablesDB().ToArray());
-                if(namesTablesComboBox.Items.Count > 0)
-                    UpdateRowsDataGrid1(namesTablesComboBox.Items[0].ToString());
+                if (namesTablesComboBox.Items.Count > 0)
+                {
+                    UpdateFormRowsDataGridView(namesTablesComboBox.Items[0].ToString());
+                }
             }
         }
-
 
         private void label1_Click(object sender, EventArgs e)
         {
-
-        }
-
-        private void UpdateRowsDataGrid1(string tableName)
-        {
-            currentTableName = tableName;
-            clearDataGridView();
-
-            switch (tableName)
-            {
-                case "Рейс":
-                    LinkedList<FlightRow> tablesFlight = db.GetFlightRows();
-
-                    foreach (string name in FlightRow.namesColumn)
-                    {
-                        DataGridViewTextBoxColumn dataGridViewColumn = new DataGridViewTextBoxColumn();
-                        dataGridViewColumn.HeaderText = name;
-                        dataGridViewColumn.Name = name;
-                        dataGridView1.Columns.Add(dataGridViewColumn);
-                    }
-                    foreach (FlightRow row in tablesFlight)
-                    {
-                        dataGridView1.Rows.Add(row.GetArrayStr());
-                    }
-                    break;
-
-                case "Владелец":
-                    LinkedList<OwnerRow> tablesOwner = db.GetOwnerRows();
-
-                    foreach (string name in OwnerRow.namesColumn)
-                    {
-                        DataGridViewTextBoxColumn dataGridViewColumn = new DataGridViewTextBoxColumn();
-                        dataGridViewColumn.HeaderText = name;
-                        dataGridViewColumn.Name = name;
-                        
-                        dataGridView1.Columns.Add(dataGridViewColumn);
-                    }
-                    foreach (OwnerRow row in tablesOwner)
-                    {
-                        dataGridView1.Rows.Add(row.GetArrayStr());
-                    }
-                    break;
-
-                case "Авиакомпания":
-                    LinkedList<AirlineRow> tablesAirline = db.GetAirlineRows();
-
-                    foreach (string name in AirlineRow.namesColumn)
-                    {
-                        DataGridViewTextBoxColumn dataGridViewColumn = new DataGridViewTextBoxColumn();
-                        dataGridViewColumn.HeaderText = name;
-                        dataGridViewColumn.Name = name;
-                        dataGridView1.Columns.Add(dataGridViewColumn);
-                    }
-                    foreach (AirlineRow row in tablesAirline)
-                    {
-                        dataGridView1.Rows.Add(row.GetArrayStr());
-                    }
-                    break;
-
-                case "Самолет":
-                    LinkedList<AirplaneRow> tablesAirplane = db.GetAirplaneRows();
-
-                    foreach (string name in AirplaneRow.namesColumn)
-                    {
-                        DataGridViewTextBoxColumn dataGridViewColumn = new DataGridViewTextBoxColumn();
-                        dataGridViewColumn.HeaderText = name;
-                        dataGridViewColumn.Name = name;
-                        dataGridView1.Columns.Add(dataGridViewColumn);
-                    }
-                    foreach (AirplaneRow row in tablesAirplane)
-                    {
-                        dataGridView1.Rows.Add(row.GetArrayStr());
-                    }
-                    break;
-            }
 
         }
 
@@ -141,21 +73,6 @@ namespace Lab7_Bd_Mk2_Entity
         {
             //accessIsShitPrimarykey = dataGridView1.Rows[e.RowIndex].Cells[0].Value.ToString();
         }
-
-
-        private void clearDataGridView()
-        {
-            try
-            {
-                dataGridView1.Rows.Clear();
-                dataGridView1.Columns.Clear();
-            }
-            catch (Exception e)
-            {
-                Console.Error.WriteLine($"Error \\-_-/ clearDataGridView(), {e.Message}");
-            }
-        }
-
         
         private void fillColumnNameDataGridView()
         {
@@ -165,7 +82,7 @@ namespace Lab7_Bd_Mk2_Entity
         //dataGrid
         private void updateTableButton_Click(object sender, EventArgs e)
         {
-            UpdateRowsDataGrid1(namesTablesComboBox.SelectedItem?.ToString());//? - проверка на null )) i love С# <3
+            UpdateFormRowsDataGridView(namesTablesComboBox.SelectedItem?.ToString());//? - проверка на null )) i love С# <3
         }
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)

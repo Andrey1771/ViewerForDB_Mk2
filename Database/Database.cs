@@ -45,7 +45,19 @@ namespace Lab7_Bd_Mk2_Entity.Database
 
             return tableNames;
         }
+        //SELECT * FROM sys.database_principals where (type='S' or type = 'U')
 
+        public LinkedList<string> GetUsersTable()
+        {
+            LinkedList<string> usersNames = new LinkedList<string>();
+
+            foreach (DataRow row in GetRowsInRequest("SELECT Name FROM sys.Tables").Rows)
+            {
+                usersNames.AddLast((string)row[0]);
+            }
+
+            return usersNames;
+        }
         public bool MakeConnectDb(string login, string password)
         {
             currentNameUser = login;
@@ -98,7 +110,6 @@ namespace Lab7_Bd_Mk2_Entity.Database
                     Console.Error.WriteLine($"Error \\-_-/ makeRequest({request}), {e.Message}");
                 }
             }
-
         }
 
         private DataTable GetRowsInRequest(string request)

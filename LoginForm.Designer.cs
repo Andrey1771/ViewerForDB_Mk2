@@ -154,8 +154,9 @@
             // 
             this.answerLabel.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.answerLabel.AutoSize = true;
-            this.answerLabel.BackColor = System.Drawing.SystemColors.Desktop;
+            this.answerLabel.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.answerLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.answerLabel.ForeColor = System.Drawing.SystemColors.ControlText;
             this.answerLabel.Location = new System.Drawing.Point(129, 95);
             this.answerLabel.Name = "answerLabel";
             this.answerLabel.Size = new System.Drawing.Size(64, 15);
