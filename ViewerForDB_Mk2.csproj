@@ -69,6 +69,7 @@
     <Compile Include="Database\Tables\FlightRow.cs" />
     <Compile Include="Database\Tables\OwnerRow.cs" />
     <Compile Include="Database\Tables\OwnersAirplanesRow.cs" />
+    <Compile Include="Database\Tables\UsersDatabaseRow.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>

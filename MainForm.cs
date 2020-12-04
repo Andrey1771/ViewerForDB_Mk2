@@ -17,13 +17,14 @@ namespace Lab7_Bd_Mk2_Entity
         private Database.Database db;
         private string currentTableName;
         private int selectedRowIndex = 0;
+
         public MainForm()
         {
             InitializeComponent();
             db = new Database.Database();
         }
 
-        
+
         private void splitContainer1_Panel2_Paint(object sender, PaintEventArgs e)
         {
 
@@ -34,11 +35,11 @@ namespace Lab7_Bd_Mk2_Entity
 
         }
 
-        private void UpdateFormRowsDataGridView (string tableName)
+        private void UpdateFormRowsDataGridView(string tableName)
         {
             currentTableName = tableName;
             DatabaseFormElementsInstruments inst = new DatabaseFormElementsInstruments();
-            inst.UpdateRowsDataGridView(tableName, dataGridView1, db);
+            inst.UpdateDatabaseRowsDataGridView(tableName, dataGridView1, db);
         }
 
         private void loginButton_Click(object sender, EventArgs e)
@@ -52,6 +53,7 @@ namespace Lab7_Bd_Mk2_Entity
                 namesTablesComboBox.Items.AddRange(db.GetNamesTablesDB().ToArray());
                 if (namesTablesComboBox.Items.Count > 0)
                 {
+                    namesTablesComboBox.SelectedItem = namesTablesComboBox.Items[0];
                     UpdateFormRowsDataGridView(namesTablesComboBox.Items[0].ToString());
                 }
             }
@@ -73,7 +75,7 @@ namespace Lab7_Bd_Mk2_Entity
         {
             //accessIsShitPrimarykey = dataGridView1.Rows[e.RowIndex].Cells[0].Value.ToString();
         }
-        
+
         private void fillColumnNameDataGridView()
         {
             dataGridView1.Columns.AddRange();
@@ -107,10 +109,12 @@ namespace Lab7_Bd_Mk2_Entity
 
         private void changeRoleUser_Click(object sender, EventArgs e)
         {
-            ChangeUsersDataForm loginForm = new ChangeUsersDataForm(ref db);// Опять таки, сигналы неплохо бы зашли TODO Сделать с сигналами
-            loginForm.ShowDialog();
+            ChangeUsersDataForm changeUsersDataForm = new ChangeUsersDataForm(ref db);// Опять таки, сигналы неплохо бы зашли TODO Сделать с сигналами
+            changeUsersDataForm.ShowDialog();
         }
+
+
     }
 
-   
+
 }

@@ -10,11 +10,11 @@ namespace Lab7_Bd_Mk2_Entity
     {
         public int iDOwner;
         public string firstNameOwner;
-        public int? age;
+        public string age;
         public int? passportSeries;
         public string secondNameOwner;
 
-        public OwnerRow(int aiDOwner, string afirstNameOwner, int? aage, int? apassportSeries, string asecondNameOwner)
+        public OwnerRow(int aiDOwner, string afirstNameOwner, string aage, int? apassportSeries, string asecondNameOwner)
         {
             iDOwner = aiDOwner;
             firstNameOwner = afirstNameOwner;

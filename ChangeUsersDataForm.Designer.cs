@@ -57,7 +57,7 @@
             this.tableLayoutPanel3.RowCount = 2;
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 6.374502F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 93.6255F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(693, 502);
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(888, 496);
             this.tableLayoutPanel3.TabIndex = 2;
             // 
             // splitContainer1
@@ -73,8 +73,8 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.updateUsersButton);
-            this.splitContainer1.Size = new System.Drawing.Size(687, 465);
-            this.splitContainer1.SplitterDistance = 582;
+            this.splitContainer1.Size = new System.Drawing.Size(882, 459);
+            this.splitContainer1.SplitterDistance = 774;
             this.splitContainer1.TabIndex = 3;
             // 
             // dataGridView1
@@ -87,7 +87,7 @@
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Location = new System.Drawing.Point(3, 3);
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(576, 459);
+            this.dataGridView1.Size = new System.Drawing.Size(768, 453);
             this.dataGridView1.TabIndex = 1;
             // 
             // updateUsersButton
@@ -104,7 +104,7 @@
             // 
             this.label1.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(281, 9);
+            this.label1.Location = new System.Drawing.Point(379, 9);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(130, 13);
             this.label1.TabIndex = 1;
@@ -115,7 +115,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(693, 502);
+            this.ClientSize = new System.Drawing.Size(888, 496);
             this.Controls.Add(this.tableLayoutPanel3);
             this.Name = "ChangeUsersDataForm";
             this.Text = "ChangeUsersDataForm";
