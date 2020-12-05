@@ -17,6 +17,7 @@ namespace Lab7_Bd_Mk2_Entity.Database.Tables
         DateTime modify_date;
         string authentication_type_desc;
 
+
         public UsersDatabaseRow(string aname, int aprincipal_id, string atype, string atype_desc,
                              string adefault_schema_name, DateTime acreate_date,
                              DateTime amodify_date, string aauthentication_type_desc)

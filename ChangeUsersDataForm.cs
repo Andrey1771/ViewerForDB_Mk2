@@ -15,6 +15,7 @@ namespace Lab7_Bd_Mk2_Entity
     {
         private Database.Database db;
         private TextBox oldOutputTextBox;
+
         public ChangeUsersDataForm(ref Database.Database adb)
         {
             db = adb;
@@ -28,6 +29,7 @@ namespace Lab7_Bd_Mk2_Entity
         {
             db.GetMyConsole().SetConsoleOutput(ref oldOutputTextBox);
         }
+
         private void label1_Click(object sender, EventArgs e)
         {
 

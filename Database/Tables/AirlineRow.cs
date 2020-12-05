@@ -13,7 +13,7 @@ namespace Lab7_Bd_Mk2_Entity
         public string location;
         public DateTime foundationDate;
         public int? staffCount;
-
+        
         public AirlineRow(int aiDAirline, string anameCompany, string alocation, DateTime afoundationDate, int? astaffCount)
         {
             iDAirline = aiDAirline;
@@ -31,5 +31,6 @@ namespace Lab7_Bd_Mk2_Entity
         }
 
         public static string[] namesColumn = new string[] { "ID Авиакомпании", "Название компании", "Расположение", "Дата основания", "Количество персонала" };
+        public static bool[] primaryKeys = new bool[] { true, false, false, false, false };// отвечает за то, является ли колонка первичным ключом (Те колонки, которые отмечены Ms Sql management studio ключом)
     }
 }

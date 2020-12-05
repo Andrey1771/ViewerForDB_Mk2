@@ -217,10 +217,9 @@ namespace Lab7_Bd_Mk2_Entity.Database
                     else
                         MakeRequest($"INSERT INTO [Самолет] VALUES({1}, 1, 'Divine Wind', 'А6М2 Модель 21', '13-12-1941', 799999)");
                     break;
-
             }
-
         }
+
         public LinkedList<OwnersAirplanesRow> SelectOwnersAirplanes(string model)
         {
             LinkedList<OwnersAirplanesRow> table = new LinkedList<OwnersAirplanesRow>();
@@ -325,5 +324,29 @@ namespace Lab7_Bd_Mk2_Entity.Database
             return table;
         }
 
+        public bool[] GetPrimaryKeysTable(string nameTable)
+        {
+            bool[] primaryKeys = { };
+            switch (nameTable)
+            {
+                case "Рейс":
+                    primaryKeys = AirlineRow.primaryKeys;
+                    break;
+
+                case "Владелец":
+
+                    break;
+
+                case "Авиакомпания":
+
+                    break;
+
+                case "Самолет":
+
+                    break;
+            }
+
+            return primaryKeys;
+        }
     }
 }

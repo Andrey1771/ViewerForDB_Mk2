@@ -39,6 +39,7 @@ namespace Lab7_Bd_Mk2_Entity.Database
 
         private void UpdateRowsDataGridView(DataGridView dataGridView, string[] nameColumns, LinkedList<string[]> dataRows)
         {
+            
             foreach (string name in nameColumns)
             {
                 DataGridViewTextBoxColumn dataGridViewColumn = new DataGridViewTextBoxColumn();

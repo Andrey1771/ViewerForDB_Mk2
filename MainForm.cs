@@ -12,6 +12,12 @@ using Lab7_Bd_Mk2_Entity.Database;
 
 namespace Lab7_Bd_Mk2_Entity
 {
+
+    //Важное пояснение:
+    //Данная программа работает с БД MS SQL Server, возможно, любыми, возможно...
+    //главная проблема может возникнуть при добавлении данных и их изменении,
+    //тк данная прога не содержить модели для gridView, мой косяк, забыл, мог бы и сделать,
+    //но она же работает?) (Использовать паттерн MVC)
     public partial class MainForm : Form
     {
 
@@ -20,6 +26,9 @@ namespace Lab7_Bd_Mk2_Entity
         private int selectedRowIndex = 0;
 
         private MyConsole.MyConsole myConsole;
+
+        public object oldCellEditData;
+
         public MainForm()
         {
             InitializeComponent();
@@ -69,13 +78,21 @@ namespace Lab7_Bd_Mk2_Entity
 
         void dataGridView1_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
-
-            db.UpdateDataTable(currentTableName, dataGridView1.Columns[e.ColumnIndex].Name, dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString(), dataGridView1.Columns[0].Name, dataGridView1.Rows[e.RowIndex].Cells[0].Value.ToString());// У всех первый элемент уникальный это первичный ключ
-            //UpdateRowsDataGrid1(currentTableName);
+            if (db.GetPrimaryKeysTable(currentTableName)[e.ColumnIndex] == true)
+            {
+                db.UpdateDataTable(currentTableName, dataGridView1.Columns[e.ColumnIndex].Name, dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString(), dataGridView1.Columns[0].Name, oldCellEditData.ToString());// У всех первый элемент уникальный это первичный ключ
+            }
+            else
+            {
+                db.UpdateDataTable(currentTableName, dataGridView1.Columns[e.ColumnIndex].Name, dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString(), dataGridView1.Columns[0].Name, dataGridView1.Rows[e.RowIndex].Cells[0].Value.ToString());
+            }
+                //UpdateRowsDataGrid1(currentTableName);
         }
 
+        
         void dataGridView1_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
         {
+            oldCellEditData = dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
             //accessIsShitPrimarykey = dataGridView1.Rows[e.RowIndex].Cells[0].Value.ToString();
         }
 
@@ -116,8 +133,9 @@ namespace Lab7_Bd_Mk2_Entity
             changeUsersDataForm.ShowDialog();
         }
 
+        private void dataGridView1_CellContentClick_1(object sender, DataGridViewCellEventArgs e)
+        {
 
+        }
     }
-
-
 }
