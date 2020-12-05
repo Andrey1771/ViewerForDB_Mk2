@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,10 +19,12 @@ namespace Lab7_Bd_Mk2_Entity
         private string currentTableName;
         private int selectedRowIndex = 0;
 
+        private MyConsole.MyConsole myConsole;
         public MainForm()
         {
             InitializeComponent();
-            db = new Database.Database();
+            myConsole = new MyConsole.MyConsole(ref consoleLogTextBox);
+            db = new Database.Database(ref myConsole);
         }
 
 
@@ -38,7 +41,7 @@ namespace Lab7_Bd_Mk2_Entity
         private void UpdateFormRowsDataGridView(string tableName)
         {
             currentTableName = tableName;
-            DatabaseFormElementsInstruments inst = new DatabaseFormElementsInstruments();
+            DatabaseFormElementsInstruments inst = new DatabaseFormElementsInstruments(ref myConsole);
             inst.UpdateDatabaseRowsDataGridView(tableName, dataGridView1, db);
         }
 

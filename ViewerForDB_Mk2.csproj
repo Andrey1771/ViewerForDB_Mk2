@@ -62,6 +62,7 @@
     <Compile Include="ChangeUsersDataForm.Designer.cs">
       <DependentUpon>ChangeUsersDataForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="MyConsole\MyConsole.cs" />
     <Compile Include="Database\DatabaseFormElementsInstruments.cs" />
     <Compile Include="Database\Tables\AirlineRow.cs" />
     <Compile Include="Database\Tables\AirplaneRow.cs" />

@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-            this.changeRoleUser = new System.Windows.Forms.Button();
+            this.changeRoleUserButton = new System.Windows.Forms.Button();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
@@ -43,7 +43,11 @@
             this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
             this.deleteSelectedRowButton = new System.Windows.Forms.Button();
             this.insertRowButton = new System.Windows.Forms.Button();
-            this.flowLayoutPanel1.SuspendLayout();
+            this.consoleLogTextBox = new System.Windows.Forms.TextBox();
+            this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
+            this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
+            this.splitContainer2 = new System.Windows.Forms.SplitContainer();
+            this.tableLayoutPanel6 = new System.Windows.Forms.TableLayoutPanel();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -53,28 +57,36 @@
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.flowLayoutPanel2.SuspendLayout();
+            this.tableLayoutPanel4.SuspendLayout();
+            this.tableLayoutPanel5.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
+            this.splitContainer2.Panel1.SuspendLayout();
+            this.splitContainer2.Panel2.SuspendLayout();
+            this.splitContainer2.SuspendLayout();
+            this.tableLayoutPanel6.SuspendLayout();
             this.SuspendLayout();
             // 
             // flowLayoutPanel1
             // 
             this.flowLayoutPanel1.AutoSize = true;
-            this.flowLayoutPanel1.Controls.Add(this.changeRoleUser);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 532);
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 561);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(887, 29);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(887, 0);
             this.flowLayoutPanel1.TabIndex = 0;
             // 
-            // changeRoleUser
+            // changeRoleUserButton
             // 
-            this.changeRoleUser.Location = new System.Drawing.Point(688, 3);
-            this.changeRoleUser.Name = "changeRoleUser";
-            this.changeRoleUser.Size = new System.Drawing.Size(196, 23);
-            this.changeRoleUser.TabIndex = 0;
-            this.changeRoleUser.Text = "Окно работы с пользователями";
-            this.changeRoleUser.UseVisualStyleBackColor = true;
-            this.changeRoleUser.Click += new System.EventHandler(this.changeRoleUser_Click);
+            this.changeRoleUserButton.AutoSize = true;
+            this.changeRoleUserButton.Dock = System.Windows.Forms.DockStyle.Left;
+            this.changeRoleUserButton.Location = new System.Drawing.Point(3, 3);
+            this.changeRoleUserButton.Name = "changeRoleUserButton";
+            this.changeRoleUserButton.Size = new System.Drawing.Size(100, 38);
+            this.changeRoleUserButton.TabIndex = 0;
+            this.changeRoleUserButton.Text = "Окно работы с пользователями";
+            this.changeRoleUserButton.UseVisualStyleBackColor = true;
+            this.changeRoleUserButton.Click += new System.EventHandler(this.changeRoleUser_Click);
             // 
             // splitContainer1
             // 
@@ -84,14 +96,14 @@
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.Controls.Add(this.splitContainer2);
             this.splitContainer1.Panel1.Controls.Add(this.tableLayoutPanel3);
-            this.splitContainer1.Panel1.Controls.Add(this.dataGridView1);
             // 
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.flowLayoutPanel2);
             this.splitContainer1.Panel2.Paint += new System.Windows.Forms.PaintEventHandler(this.splitContainer1_Panel2_Paint);
-            this.splitContainer1.Size = new System.Drawing.Size(887, 532);
+            this.splitContainer1.Size = new System.Drawing.Size(887, 561);
             this.splitContainer1.SplitterDistance = 771;
             this.splitContainer1.TabIndex = 1;
             // 
@@ -117,22 +129,22 @@
             this.tableLayoutPanel2.ColumnCount = 3;
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 49.07975F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.92025F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 154F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 155F));
             this.tableLayoutPanel2.Controls.Add(this.loginButton, 0, 0);
-            this.tableLayoutPanel2.Controls.Add(this.label1, 1, 0);
             this.tableLayoutPanel2.Controls.Add(this.nameUserTextBox, 2, 0);
+            this.tableLayoutPanel2.Controls.Add(this.label1, 1, 0);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Right;
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(31, 3);
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(30, 3);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 1;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(482, 29);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(483, 29);
             this.tableLayoutPanel2.TabIndex = 3;
             // 
             // loginButton
             // 
-            this.loginButton.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.loginButton.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.loginButton.AutoSize = true;
             this.loginButton.Location = new System.Drawing.Point(3, 3);
             this.loginButton.Name = "loginButton";
@@ -145,7 +157,7 @@
             // 
             // label1
             // 
-            this.label1.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.label1.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(163, 8);
             this.label1.Name = "label1";
@@ -155,8 +167,8 @@
             // 
             // nameUserTextBox
             // 
-            this.nameUserTextBox.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.nameUserTextBox.Location = new System.Drawing.Point(330, 4);
+            this.nameUserTextBox.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.nameUserTextBox.Location = new System.Drawing.Point(335, 4);
             this.nameUserTextBox.Name = "nameUserTextBox";
             this.nameUserTextBox.ReadOnly = true;
             this.nameUserTextBox.Size = new System.Drawing.Size(140, 20);
@@ -202,15 +214,13 @@
             // 
             // dataGridView1
             // 
-            this.dataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.dataGridView1.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(3, 38);
+            this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataGridView1.Location = new System.Drawing.Point(0, 0);
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(765, 491);
+            this.dataGridView1.Size = new System.Drawing.Size(771, 486);
             this.dataGridView1.TabIndex = 0;
             this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             this.dataGridView1.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellEndEdit);
@@ -218,20 +228,21 @@
             // flowLayoutPanel2
             // 
             this.flowLayoutPanel2.AutoSize = true;
-            this.flowLayoutPanel2.Controls.Add(this.deleteSelectedRowButton);
-            this.flowLayoutPanel2.Controls.Add(this.insertRowButton);
+            this.flowLayoutPanel2.Controls.Add(this.tableLayoutPanel4);
+            this.flowLayoutPanel2.Controls.Add(this.tableLayoutPanel5);
             this.flowLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel2.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flowLayoutPanel2.Location = new System.Drawing.Point(0, 0);
             this.flowLayoutPanel2.Name = "flowLayoutPanel2";
-            this.flowLayoutPanel2.Size = new System.Drawing.Size(112, 532);
+            this.flowLayoutPanel2.Size = new System.Drawing.Size(112, 561);
             this.flowLayoutPanel2.TabIndex = 0;
             // 
             // deleteSelectedRowButton
             // 
+            this.deleteSelectedRowButton.AutoSize = true;
             this.deleteSelectedRowButton.Location = new System.Drawing.Point(3, 3);
             this.deleteSelectedRowButton.Name = "deleteSelectedRowButton";
-            this.deleteSelectedRowButton.Size = new System.Drawing.Size(105, 32);
+            this.deleteSelectedRowButton.Size = new System.Drawing.Size(100, 32);
             this.deleteSelectedRowButton.TabIndex = 0;
             this.deleteSelectedRowButton.Text = "Удалить строку";
             this.deleteSelectedRowButton.UseVisualStyleBackColor = true;
@@ -239,13 +250,90 @@
             // 
             // insertRowButton
             // 
-            this.insertRowButton.Location = new System.Drawing.Point(3, 41);
+            this.insertRowButton.AutoSize = true;
+            this.insertRowButton.Location = new System.Drawing.Point(3, 42);
             this.insertRowButton.Name = "insertRowButton";
-            this.insertRowButton.Size = new System.Drawing.Size(105, 33);
+            this.insertRowButton.Size = new System.Drawing.Size(100, 33);
             this.insertRowButton.TabIndex = 1;
             this.insertRowButton.Text = "Вставить строку";
             this.insertRowButton.UseVisualStyleBackColor = true;
             this.insertRowButton.Click += new System.EventHandler(this.insertRowButton_Click);
+            // 
+            // consoleLogTextBox
+            // 
+            this.consoleLogTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.consoleLogTextBox.Location = new System.Drawing.Point(3, 3);
+            this.consoleLogTextBox.Multiline = true;
+            this.consoleLogTextBox.Name = "consoleLogTextBox";
+            this.consoleLogTextBox.ReadOnly = true;
+            this.consoleLogTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.consoleLogTextBox.Size = new System.Drawing.Size(765, 30);
+            this.consoleLogTextBox.TabIndex = 1;
+            // 
+            // tableLayoutPanel4
+            // 
+            this.tableLayoutPanel4.AutoSize = true;
+            this.tableLayoutPanel4.ColumnCount = 1;
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel4.Controls.Add(this.deleteSelectedRowButton, 0, 0);
+            this.tableLayoutPanel4.Controls.Add(this.insertRowButton, 0, 1);
+            this.tableLayoutPanel4.Location = new System.Drawing.Point(3, 3);
+            this.tableLayoutPanel4.Name = "tableLayoutPanel4";
+            this.tableLayoutPanel4.RowCount = 2;
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel4.Size = new System.Drawing.Size(106, 78);
+            this.tableLayoutPanel4.TabIndex = 2;
+            // 
+            // tableLayoutPanel5
+            // 
+            this.tableLayoutPanel5.AutoSize = true;
+            this.tableLayoutPanel5.ColumnCount = 1;
+            this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 76.39046F));
+            this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 23.60954F));
+            this.tableLayoutPanel5.Controls.Add(this.changeRoleUserButton, 1, 0);
+            this.tableLayoutPanel5.Location = new System.Drawing.Point(3, 87);
+            this.tableLayoutPanel5.Name = "tableLayoutPanel5";
+            this.tableLayoutPanel5.RowCount = 1;
+            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel5.Size = new System.Drawing.Size(106, 44);
+            this.tableLayoutPanel5.TabIndex = 2;
+            // 
+            // splitContainer2
+            // 
+            this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer2.Location = new System.Drawing.Point(0, 35);
+            this.splitContainer2.Name = "splitContainer2";
+            this.splitContainer2.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainer2.Panel1
+            // 
+            this.splitContainer2.Panel1.Controls.Add(this.dataGridView1);
+            // 
+            // splitContainer2.Panel2
+            // 
+            this.splitContainer2.Panel2.Controls.Add(this.tableLayoutPanel6);
+            this.splitContainer2.Size = new System.Drawing.Size(771, 526);
+            this.splitContainer2.SplitterDistance = 486;
+            this.splitContainer2.TabIndex = 5;
+            // 
+            // tableLayoutPanel6
+            // 
+            this.tableLayoutPanel6.AutoSize = true;
+            this.tableLayoutPanel6.ColumnCount = 1;
+            this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel6.Controls.Add(this.consoleLogTextBox, 0, 0);
+            this.tableLayoutPanel6.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel6.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel6.Name = "tableLayoutPanel6";
+            this.tableLayoutPanel6.RowCount = 1;
+            this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel6.Size = new System.Drawing.Size(771, 36);
+            this.tableLayoutPanel6.TabIndex = 0;
             // 
             // MainForm
             // 
@@ -256,7 +344,6 @@
             this.Controls.Add(this.flowLayoutPanel1);
             this.Name = "MainForm";
             this.Text = "DatabaseViewer";
-            this.flowLayoutPanel1.ResumeLayout(false);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel1.PerformLayout();
             this.splitContainer1.Panel2.ResumeLayout(false);
@@ -270,6 +357,18 @@
             this.tableLayoutPanel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.flowLayoutPanel2.ResumeLayout(false);
+            this.flowLayoutPanel2.PerformLayout();
+            this.tableLayoutPanel4.ResumeLayout(false);
+            this.tableLayoutPanel4.PerformLayout();
+            this.tableLayoutPanel5.ResumeLayout(false);
+            this.tableLayoutPanel5.PerformLayout();
+            this.splitContainer2.Panel1.ResumeLayout(false);
+            this.splitContainer2.Panel2.ResumeLayout(false);
+            this.splitContainer2.Panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
+            this.splitContainer2.ResumeLayout(false);
+            this.tableLayoutPanel6.ResumeLayout(false);
+            this.tableLayoutPanel6.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -278,7 +377,7 @@
         #endregion
 
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
-        private System.Windows.Forms.Button changeRoleUser;
+        private System.Windows.Forms.Button changeRoleUserButton;
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.Button updateTableButton;
@@ -292,6 +391,11 @@
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel2;
         private System.Windows.Forms.Button deleteSelectedRowButton;
         private System.Windows.Forms.Button insertRowButton;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel5;
+        private System.Windows.Forms.TextBox consoleLogTextBox;
+        private System.Windows.Forms.SplitContainer splitContainer2;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel6;
     }
 }
 

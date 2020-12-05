@@ -11,13 +11,24 @@ namespace Lab7_Bd_Mk2_Entity.Database
 {
     public class Database
     {
-
         private string connectionString = "";
         public bool connected = false;
         public string currentNameUser;
-        public Database()
-        {
+        MyConsole.MyConsole myConsole;
 
+        public Database(ref MyConsole.MyConsole amyConsole)
+        {
+            SetConsole(ref amyConsole);
+        }
+
+        public void SetConsole(ref MyConsole.MyConsole amyConsole)
+        {
+            myConsole = amyConsole;
+        }
+
+        public ref MyConsole.MyConsole GetMyConsole()
+        {
+            return ref myConsole;
         }
 
         public void OpenConnection(SqlConnection connection)
@@ -29,7 +40,7 @@ namespace Lab7_Bd_Mk2_Entity.Database
             catch
             {
                 connectionString = @"Error \-_-/";
-                Console.Error.WriteLine(@"Error \-_-/ Connection failed");
+                myConsole.NewErrorMessage(@"Error \-_-/ Connection failed");
                 //throw new Exception("GetFlightRows(), Error");
             }
         }
@@ -78,7 +89,7 @@ namespace Lab7_Bd_Mk2_Entity.Database
                 catch (Exception e)
                 {
                     connectionString = @"Error \-_-/";
-                    Console.Error.WriteLine($"Error \\-_-/ Connection failed , {e.Message}");
+                    myConsole.NewErrorMessage($"Error \\-_-/ Connection failed , {e.Message}");
                     return connected = false;
                 }
 
@@ -100,22 +111,29 @@ namespace Lab7_Bd_Mk2_Entity.Database
 
         private void MakeRequest(string request)
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            try
             {
-                OpenConnection(connection);
-
-                SqlCommand cmd = new SqlCommand();
-                cmd.Connection = connection;
-                cmd.CommandText = request;
-
-                try
+                using (SqlConnection connection = new SqlConnection(connectionString))
                 {
-                    cmd.ExecuteReader();//Reader надо поменять я забыл название 
+                    OpenConnection(connection);
+
+                    SqlCommand cmd = new SqlCommand();
+                    cmd.Connection = connection;
+                    cmd.CommandText = request;
+
+                    try
+                    {
+                        cmd.ExecuteReader();//Reader надо поменять я забыл название 
+                    }
+                    catch (Exception e)
+                    {
+                        myConsole.NewErrorMessage($"Error \\-_-/ makeRequest({request}), {e.Message}");
+                    }
                 }
-                catch (Exception e)
-                {
-                    Console.Error.WriteLine($"Error \\-_-/ makeRequest({request}), {e.Message}");
-                }
+            }
+            catch (Exception e)
+            {
+                myConsole.NewErrorMessage($"Error \\-_-/ makeRequest({request}), {e.Message}");
             }
         }
 
@@ -123,24 +141,30 @@ namespace Lab7_Bd_Mk2_Entity.Database
         {
             DataTable dataTable = new DataTable();
 
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            try
             {
-                OpenConnection(connection);
-
-                SqlCommand cmd = new SqlCommand();
-                cmd.Connection = connection;
-                cmd.CommandText = request;
-
-                try
+                using (SqlConnection connection = new SqlConnection(connectionString))
                 {
-                    dataTable.Load(cmd.ExecuteReader());
-                }
-                catch (Exception e)
-                {
-                    Console.Error.WriteLine($"Error \\-_-/ GetRowsInRequest({request}), {e.Message}");
+                    OpenConnection(connection);
+
+                    SqlCommand cmd = new SqlCommand();
+                    cmd.Connection = connection;
+                    cmd.CommandText = request;
+
+                    try
+                    {
+                        dataTable.Load(cmd.ExecuteReader());
+                    }
+                    catch (Exception e)
+                    {
+                        myConsole.NewErrorMessage($"Error \\-_-/ GetRowsInRequest({request}), {e.Message}");
+                    }
                 }
             }
-
+            catch (Exception e)
+            {
+                myConsole.NewErrorMessage($"Error \\-_-/ GetRowsInRequest({request}), {e.Message}");
+            }
             return dataTable;
         }
 
@@ -225,15 +249,22 @@ namespace Lab7_Bd_Mk2_Entity.Database
         {
             DataTable dataTable = new DataTable();
 
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            try// эх, я не уверен в try, может лучше просто if?
             {
-                OpenConnection(connection);
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    OpenConnection(connection);
 
-                SqlCommand cmd = new SqlCommand();
-                cmd.Connection = connection;
-                cmd.CommandText = $"SELECT * FROM {tableName};";
+                    SqlCommand cmd = new SqlCommand();
+                    cmd.Connection = connection;
+                    cmd.CommandText = $"SELECT * FROM {tableName};";
 
-                dataTable.Load(cmd.ExecuteReader());
+                    dataTable.Load(cmd.ExecuteReader());
+                }
+            }
+            catch (Exception e)
+            {
+                myConsole.NewErrorMessage($"Error \\-_-/ GetRows(string {tableName}), {e.Message}");
             }
             return dataTable;
         }

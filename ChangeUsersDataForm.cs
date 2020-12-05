@@ -13,15 +13,21 @@ namespace Lab7_Bd_Mk2_Entity
 {
     public partial class ChangeUsersDataForm : Form
     {
-        private Database.Database database;
-
+        private Database.Database db;
+        private TextBox oldOutputTextBox;
         public ChangeUsersDataForm(ref Database.Database adb)
         {
             db = adb;
             InitializeComponent();
+            oldOutputTextBox = db.GetMyConsole().GetOutputTextBox();
+            db.GetMyConsole().SetConsoleOutput(ref consoleLogTextBox);
             UpdateUsersDatabaseRowsDataGridView();
         }
 
+        ~ChangeUsersDataForm()
+        {
+            db.GetMyConsole().SetConsoleOutput(ref oldOutputTextBox);
+        }
         private void label1_Click(object sender, EventArgs e)
         {
 
@@ -36,7 +42,7 @@ namespace Lab7_Bd_Mk2_Entity
         {
             if (db.connected)
             {
-                DatabaseFormElementsInstruments inst = new DatabaseFormElementsInstruments();
+                DatabaseFormElementsInstruments inst = new DatabaseFormElementsInstruments(ref db.GetMyConsole());
                 inst.UpdateUsersDatabaseRowsDataGridView(dataGridView1, db);
             }
         }

@@ -11,6 +11,17 @@ namespace Lab7_Bd_Mk2_Entity.Database
 {
     class DatabaseFormElementsInstruments
     {
+        MyConsole.MyConsole myConsole;
+        public DatabaseFormElementsInstruments(ref MyConsole.MyConsole amyConsole)
+        {
+            SetConsole(ref amyConsole);
+        }
+
+        public void SetConsole(ref MyConsole.MyConsole amyConsole)
+        {
+            myConsole = amyConsole;
+        }
+
         public void clearDataGridView(DataGridView dataGridView)
         {
             try
@@ -20,7 +31,7 @@ namespace Lab7_Bd_Mk2_Entity.Database
             }
             catch (Exception e)
             {
-                Console.Error.WriteLine($"Error \\-_-/ clearDataGridView(DataGridView dataGridView), {e.Message}");
+                myConsole.NewErrorMessage($"Error \\-_-/ clearDataGridView(DataGridView dataGridView), {e.Message}");
             }
         }
 
