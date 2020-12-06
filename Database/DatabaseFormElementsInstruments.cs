@@ -39,7 +39,7 @@ namespace Lab7_Bd_Mk2_Entity.Database
 
         private void UpdateRowsDataGridView(DataGridView dataGridView, string[] nameColumns, LinkedList<string[]> dataRows)
         {
-            
+
             foreach (string name in nameColumns)
             {
                 DataGridViewTextBoxColumn dataGridViewColumn = new DataGridViewTextBoxColumn();
@@ -72,48 +72,14 @@ namespace Lab7_Bd_Mk2_Entity.Database
             clearDataGridView(dataGridView);
             LinkedList<string[]> dataRows = new LinkedList<string[]>();
 
-            switch (tableName)
+            LinkedList<List<string>> rowsTable = db.GetRowsTable(tableName);
+
+            foreach (List<string> row in rowsTable)
             {
-                case "Рейс":
-                    LinkedList<FlightRow> tablesFlight = db.GetFlightRows();
-
-                    foreach (FlightRow row in tablesFlight)
-                    {
-                        dataRows.AddLast(row.GetArrayStr());
-                    }
-                    UpdateRowsDataGridView(dataGridView, FlightRow.namesColumn, dataRows);
-                    break;
-
-                case "Владелец":
-                    LinkedList<OwnerRow> tablesOwner = db.GetOwnerRows();
-
-                    foreach (OwnerRow row in tablesOwner)
-                    {
-                        dataRows.AddLast(row.GetArrayStr());
-                    }
-                    UpdateRowsDataGridView(dataGridView, OwnerRow.namesColumn, dataRows);
-                    break;
-
-                case "Авиакомпания":
-                    LinkedList<AirlineRow> tablesAirline = db.GetAirlineRows();
-
-                    foreach (AirlineRow row in tablesAirline)
-                    {
-                        dataRows.AddLast(row.GetArrayStr());
-                    }
-                    UpdateRowsDataGridView(dataGridView, AirlineRow.namesColumn, dataRows);
-                    break;
-
-                case "Самолет":
-                    LinkedList<AirplaneRow> tablesAirplane = db.GetAirplaneRows();
-
-                    foreach (AirplaneRow row in tablesAirplane)
-                    {
-                        dataRows.AddLast(row.GetArrayStr());
-                    }
-                    UpdateRowsDataGridView(dataGridView, AirplaneRow.namesColumn, dataRows);
-                    break;
+                dataRows.AddLast(row.ToArray());
             }
+            UpdateRowsDataGridView(dataGridView, db.GetColumnsTable(tableName).ToArray(), dataRows);
+
         }
     }
 }

@@ -16,6 +16,82 @@ namespace Lab7_Bd_Mk2_Entity.Database
         public string currentNameUser;
         MyConsole.MyConsole myConsole;
 
+        private string nameDatabase;
+        LinkedList<string> nameTables;
+
+        LinkedList<bool> primaryKeysCurrentTable;
+        LinkedList<string> nameColumnsCurrentTable;
+
+        private void UpdateNameTables()
+        {
+            DataRowCollection dataRowCollection = GetRowsInRequest($"SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_CATALOG = '{nameDatabase}';").Rows;
+            if(nameTables != null)
+                nameTables.Clear();
+            foreach (DataRow row in dataRowCollection)
+            {
+                nameTables.AddLast(row[0].ToString());
+            }
+        }
+
+        private bool UpdateCurrentTable(string nameTable)
+        {
+            DataRowCollection columnsDataRowCollection = GetRowsInRequest($"SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE table_name = '{nameTable}'").Rows;
+            if (nameColumnsCurrentTable == null)
+                nameColumnsCurrentTable = new LinkedList<string>();
+            else
+                nameColumnsCurrentTable.Clear();
+
+            foreach (DataRow row in columnsDataRowCollection)
+            {
+                nameColumnsCurrentTable.AddLast(row[0].ToString());
+            }
+
+            DataRowCollection primaryKeysDataRowCollection = GetRowsInRequest($"SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE OBJECTPROPERTY(OBJECT_ID(CONSTRAINT_SCHEMA + '.' + QUOTENAME(CONSTRAINT_NAME)), 'IsPrimaryKey') = 1 AND TABLE_NAME = '{nameTable}'").Rows;
+            LinkedList<string> primaryColumnsNamesCollection = new LinkedList<string>();
+            foreach (DataRow row in primaryKeysDataRowCollection)
+            {
+                primaryColumnsNamesCollection.AddLast(row[0].ToString());
+            }
+
+            if (primaryKeysCurrentTable == null)
+                primaryKeysCurrentTable = new LinkedList<bool>();
+            else
+                primaryKeysCurrentTable.Clear();
+            
+            foreach(string var in nameColumnsCurrentTable)
+            {
+                if(nameColumnsCurrentTable.Find(var).Value != null)
+                {
+                    primaryKeysCurrentTable.AddLast(true);
+                }
+                else
+                {
+                    primaryKeysCurrentTable.AddLast(false);
+                }
+            }
+
+            if(primaryKeysCurrentTable.Count != nameColumnsCurrentTable.Count)
+            {
+                myConsole.NewErrorMessage(@"Error \-_-/ primaryKeysCurrentTable.Count != nameColumnsCurrentTable.Count,
+                                            UpdatePrimaryKeys(string tableName)");
+                return false;
+            }
+
+            return true;
+        }
+
+
+        public LinkedList<string> GetColumnsTable(string nameTable)
+        {
+            UpdateCurrentTable(nameTable);
+            return nameColumnsCurrentTable;
+        }
+
+        public LinkedList<string> GetNameTables()
+        {
+            return nameTables;
+        }
+
         public Database(ref MyConsole.MyConsole amyConsole)
         {
             SetConsole(ref amyConsole);
@@ -48,8 +124,8 @@ namespace Lab7_Bd_Mk2_Entity.Database
         public LinkedList<string> GetNamesTablesDB()
         {
             LinkedList<string> tableNames = new LinkedList<string>();
-
-            foreach (DataRow row in GetRowsInRequest("SELECT Name FROM sys.Tables").Rows)
+            DataRowCollection dataRowCollection = GetRowsInRequest("SELECT Name FROM sys.Tables").Rows;
+            foreach (DataRow row in dataRowCollection)
             {
                 tableNames.AddLast((string)row[0]);
             }
@@ -85,11 +161,12 @@ namespace Lab7_Bd_Mk2_Entity.Database
                 try
                 {
                     connection.Open();
+                    UpdateNameTables();
                 }
                 catch (Exception e)
                 {
                     connectionString = @"Error \-_-/";
-                    myConsole.NewErrorMessage($"Error \\-_-/ Connection failed , {e.Message}");
+                    myConsole.NewErrorMessage($"Error \\-_-/ Connection failed, {e.Message}");
                     return connected = false;
                 }
 
@@ -137,6 +214,25 @@ namespace Lab7_Bd_Mk2_Entity.Database
             }
         }
 
+        public LinkedList<List<string>> GetRowsTable(string nameTable)
+        {
+            LinkedList<List<string>> rowsTableLinkList = new LinkedList<List<string>>();
+
+            LinkedList<UsersDatabaseRow> usersNames = new LinkedList<UsersDatabaseRow>();
+            DataRowCollection dataRowCollection = GetRowsInRequest($"SELECT * FROM {nameTable}").Rows;
+            foreach (DataRow row in dataRowCollection)
+            {
+                object[] objects = row.ItemArray;
+                List<string> rowStr = new List<string>();
+                foreach(object cell in objects)
+                {
+                    rowStr.Add(cell.ToString());
+                }
+                rowsTableLinkList.AddLast(rowStr);
+            }
+
+            return rowsTableLinkList;
+        }
         private DataTable GetRowsInRequest(string request)
         {
             DataTable dataTable = new DataTable();
@@ -220,133 +316,10 @@ namespace Lab7_Bd_Mk2_Entity.Database
             }
         }
 
-        public LinkedList<OwnersAirplanesRow> SelectOwnersAirplanes(string model)
-        {
-            LinkedList<OwnersAirplanesRow> table = new LinkedList<OwnersAirplanesRow>();
-
-            foreach (DataRow row in GetRowsInRequest($"SELECT * FROM [ВыбратьВладельцевСамолетов]('{model}')").Rows)
-            {
-                table.AddLast(new OwnersAirplanesRow((string)row[0], (string)row[1]));
-            }
-
-            return table;
-        }
-
-        public LinkedList<OwnersAirplanesRow> SelectAirplanesAirline(string airline)
-        {
-            LinkedList<OwnersAirplanesRow> table = new LinkedList<OwnersAirplanesRow>();
-
-            foreach (DataRow row in GetRowsInRequest($"SELECT * FROM [ВыбратьСамолетыАвиакомпании]('{airline}')").Rows)
-            {
-                table.AddLast(new OwnersAirplanesRow((string)row[0], (string)row[1]));
-            }
-
-            return table;
-        }
-
-        private DataTable GetRows(string tableName)
-        {
-            DataTable dataTable = new DataTable();
-
-            try// эх, я не уверен в try, может лучше просто if?
-            {
-                using (SqlConnection connection = new SqlConnection(connectionString))
-                {
-                    OpenConnection(connection);
-
-                    SqlCommand cmd = new SqlCommand();
-                    cmd.Connection = connection;
-                    cmd.CommandText = $"SELECT * FROM {tableName};";
-
-                    dataTable.Load(cmd.ExecuteReader());
-                }
-            }
-            catch (Exception e)
-            {
-                myConsole.NewErrorMessage($"Error \\-_-/ GetRows(string {tableName}), {e.Message}");
-            }
-            return dataTable;
-        }
-
-        public LinkedList<FlightRow> GetFlightRows()
-        {
-            LinkedList<FlightRow> table = new LinkedList<FlightRow>();
-            DataTable dataTable = GetRows("Рейс");
-
-            foreach (DataRow row in dataTable.Rows)
-            {
-                table.AddLast(new FlightRow((int)row[0], (int)row[1], (int)row[2], (string)row[3],
-                    (decimal?)row[4], (DateTime)row[5], (DateTime)row[6]));
-            }
-
-            return table;
-        }
-
-        public LinkedList<AirlineRow> GetAirlineRows()
-        {
-            LinkedList<AirlineRow> table = new LinkedList<AirlineRow>();
-            DataTable dataTable = GetRows("Авиакомпания");
-
-            foreach (DataRow row in dataTable.Rows)
-            {
-                table.AddLast(new AirlineRow((int)row[0], (string)row[1], (string)row[2], (DateTime)row[3],
-                    (int?)row[4]));
-            }
-
-            return table;
-        }
-
-        public LinkedList<OwnerRow> GetOwnerRows()
-        {
-            LinkedList<OwnerRow> table = new LinkedList<OwnerRow>();
-            DataTable dataTable = GetRows("Владелец");
-
-            foreach (DataRow row in dataTable.Rows)
-            {
-                table.AddLast(new OwnerRow((int)row[0], (string)row[1], (string)row[2], (int?)row[3],
-                    (string)row[4]));
-            }
-
-            return table;
-        }
-
-        public LinkedList<AirplaneRow> GetAirplaneRows()
-        {
-            LinkedList<AirplaneRow> table = new LinkedList<AirplaneRow>();
-            DataTable dataTable = GetRows("Самолет");
-
-            foreach (DataRow row in dataTable.Rows)
-            {
-                table.AddLast(new AirplaneRow((int)row[0], (int)row[1], (string)row[2], (string)row[3],
-                    (DateTime)row[4], (decimal?)row[5]));
-            }
-
-            return table;
-        }
-
         public bool[] GetPrimaryKeysTable(string nameTable)
         {
-            bool[] primaryKeys = { };
-            switch (nameTable)
-            {
-                case "Рейс":
-                    primaryKeys = AirlineRow.primaryKeys;
-                    break;
-
-                case "Владелец":
-
-                    break;
-
-                case "Авиакомпания":
-
-                    break;
-
-                case "Самолет":
-
-                    break;
-            }
-
-            return primaryKeys;
+            UpdateCurrentTable(nameTable);
+            return primaryKeysCurrentTable.ToArray();
         }
     }
 }
