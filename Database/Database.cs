@@ -34,6 +34,14 @@ namespace Lab7_Bd_Mk2_Entity.Database
             {
                 nameTables.AddLast(row[0].ToString());
             }
+
+            DataRowCollection nameViewDataRowCollection = GetRowsInRequest($"SELECT name FROM sys.views").Rows;
+
+            foreach (DataRow row in nameViewDataRowCollection)
+            {
+                nameTables.AddLast(row[0].ToString());
+            }
+
         }
 
         private bool UpdateCurrentTable(string nameTable)
@@ -136,14 +144,8 @@ namespace Lab7_Bd_Mk2_Entity.Database
 
         public LinkedList<string> GetNamesTablesDB()
         {
-            LinkedList<string> tableNames = new LinkedList<string>();
-            DataRowCollection dataRowCollection = GetRowsInRequest("SELECT Name FROM sys.Tables").Rows;
-            foreach (DataRow row in dataRowCollection)
-            {
-                tableNames.AddLast((string)row[0]);
-            }
-
-            return tableNames;
+            UpdateNameTables();
+            return GetNameTables();
         }
 
         //SELECT * FROM sys.database_principals where (type='S' or type = 'U')
@@ -169,8 +171,8 @@ namespace Lab7_Bd_Mk2_Entity.Database
         {
             currentNameUser = login;//DESKTOP-0U9RJHC\MSSQLSERVERNEW
             /////МЕНЯТЬ БД ДЛЯ НОВОГО СОЕДИНЕНИЯ
-            nameDatabase = "MS_SQL_Lab_2";
-            connectionString = $"Server=.\\SQLEXPRESS; Data Source=DESKTOP-0U9RJHC\\MSSQLSERVERNEW; Database='{nameDatabase}'; User ID='{login}'; Password='{password}';";
+            nameDatabase = "Турфирма";
+            connectionString = $"Server=.\\SQLEXPRESS; Data Source=DESKTOP-TSOUA6L\\SQLEXPRESS; Database='{nameDatabase}'; User ID='{login}'; Password='{password}';";
             /////
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -195,11 +197,7 @@ namespace Lab7_Bd_Mk2_Entity.Database
             MakeRequest($"EXEC sp_addlogin '{name}', '{password}', '{nameDatabase}'");
             MakeRequest($"EXEC sp_adduser '{name}'");
             MakeRequest($"EXEC sp_addrolemember '{role}', '{name}'");
-            /*
-             EXEC sp_addlogin @name, @password, 'MS_SQL_Lab_2'
-             EXEC sp_adduser @name
-             EXEC sp_addrolemember @role, @name
-             */
+
             return true; // да, проверки пока нет, TODO добавить проверку
         }
 
@@ -324,8 +322,11 @@ namespace Lab7_Bd_Mk2_Entity.Database
                         case "nvarchar":
                             insertValues += $"'{(string)obj}',";
                             break;
+                        case "varchar"://SELECT name FROM sys.views
+                            insertValues += $"'{(string)obj}',";
+                            break;
                         case "money":
-                            insertValues += $"'{0}',";//Да-да, не работает оно
+                            insertValues += $"'{1}',";//Да-да, не работает оно
                             break;
                         case "datetime":
                             insertValues += $"'{obj.ToString()}',";
@@ -348,6 +349,9 @@ namespace Lab7_Bd_Mk2_Entity.Database
                         case "nvarchar":
                             insertValues += $"'{""}',";
                             break;
+                        case "varchar":
+                            insertValues += $"'{""}',";
+                            break;
                         case "money":
                             insertValues += $"{1},";
                             break;
@@ -366,11 +370,6 @@ namespace Lab7_Bd_Mk2_Entity.Database
             }
             insertValues = insertValues.Remove(insertValues.Count() - 1, 1);
             MakeRequest($"INSERT INTO [{nameTable}] VALUES({insertValues})");
-            /*
-                MakeRequest($"INSERT INTO [{nameTable}] VALUES({GetRowsInRequest(request).Rows[0].Field<int?>(0)}, 1, 1, 'Siberia', 1903, '14-11-2020 08:00:33', '14-11-2020 13:10:03')");
-            else
-                MakeRequest($"INSERT INTO [Рейс] VALUES({1}, 1, 1, 'Siberia', 1903, '14-11-2020 08:00:33', '14-11-2020 13:10:03')");
-           */
         }
 
 
