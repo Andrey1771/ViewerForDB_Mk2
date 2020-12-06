@@ -21,7 +21,6 @@ namespace Lab7_Bd_Mk2_Entity
             db = adb;
             InitializeComponent();
             oldOutputTextBox = db.GetMyConsole().GetOutputTextBox();
-            db.GetMyConsole().SetConsoleOutput(ref consoleLogTextBox);
             UpdateUsersDatabaseRowsDataGridView();
         }
 

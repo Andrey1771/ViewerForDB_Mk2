@@ -29,13 +29,14 @@ namespace Lab7_Bd_Mk2_Entity.MyConsole
         public void NewMessage(string message)
         {
             Console.WriteLine(message);
+            outputTextBox.Text = "";
             outputTextBox.Text += (message + Environment.NewLine);
         }
 
         public void NewErrorMessage(string message)
         {
             Console.Error.WriteLine(message);
-            
+            outputTextBox.Text = "";
             outputTextBox.Text += (message + Environment.NewLine);
         }
     }

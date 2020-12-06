@@ -18,7 +18,7 @@ namespace Lab7_Bd_Mk2_Entity
     //главная проблема может возникнуть при добавлении данных и их изменении,
     //тк данная прога не содержить модели для gridView, мой косяк, забыл, мог бы и сделать,
     //но она же работает?) (Использовать паттерн MVC)
-    //РАБОТАЕТ ТОЛЬКО С ТАКИМИ ПОЛЯМИ int, nvarchar, money, datetime, date, Если есть другие
+    //РАБОТАЕТ ТОЛЬКО С ТАКИМИ ПОЛЯМИ int, nvarchar, varchar, money, datetime, date, Если есть другие
     //Нужно расширить switch в Database
     //у money есть баг при добавлении
     //Для смены подключаемой БД идти в  Database => public bool MakeConnectDb(string login, string password), 
@@ -65,7 +65,6 @@ namespace Lab7_Bd_Mk2_Entity
             loginForm.ShowDialog();
             if (db.connected)
             {
-                nameUserTextBox.Text = db.currentNameUser;
                 namesTablesComboBox.Items.Clear();
                 namesTablesComboBox.Items.AddRange(db.GetNamesTablesDB().ToArray());
                 if (namesTablesComboBox.Items.Count > 0)
