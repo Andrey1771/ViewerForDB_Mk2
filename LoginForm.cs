@@ -28,7 +28,7 @@ namespace Lab7_Bd_Mk2_Entity
 
         private void registrationButton_Click(object sender, EventArgs e)
         {
-            db.MakeNewLoginToUser(loginTextBox.Text, passwordTextBox.Text);
+            db.MakeNewLoginToUser(loginTextBox.Text, passwordTextBox.Text, roleTextBox.Text);
         }
     }
 }

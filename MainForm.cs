@@ -18,6 +18,11 @@ namespace Lab7_Bd_Mk2_Entity
     //главная проблема может возникнуть при добавлении данных и их изменении,
     //тк данная прога не содержить модели для gridView, мой косяк, забыл, мог бы и сделать,
     //но она же работает?) (Использовать паттерн MVC)
+    //РАБОТАЕТ ТОЛЬКО С ТАКИМИ ПОЛЯМИ int, nvarchar, money, datetime, date, Если есть другие
+    //Нужно расширить switch в Database
+    //у money есть баг при добавлении
+    //Для смены подключаемой БД идти в  Database => public bool MakeConnectDb(string login, string password), 
+    //Там все написано и очевидно, удачи!
     public partial class MainForm : Form
     {
 
@@ -136,6 +141,11 @@ namespace Lab7_Bd_Mk2_Entity
         private void dataGridView1_CellContentClick_1(object sender, DataGridViewCellEventArgs e)
         {
 
+        }
+
+        private void namesTablesComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            UpdateFormRowsDataGridView(namesTablesComboBox.SelectedItem?.ToString());//? - проверка на null )) i love С# <3
         }
     }
 }

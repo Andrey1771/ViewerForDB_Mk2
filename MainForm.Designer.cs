@@ -135,9 +135,9 @@
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.Size = new System.Drawing.Size(771, 485);
             this.dataGridView1.TabIndex = 0;
+            this.dataGridView1.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridView1_CellBeginEdit);
             this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             this.dataGridView1.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellEndEdit);
-            this.dataGridView1.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridView1_CellBeginEdit);
             // 
             // tableLayoutPanel6
             // 
@@ -188,17 +188,17 @@
             this.tableLayoutPanel2.ColumnCount = 3;
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 49.07975F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.92025F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 156F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 157F));
             this.tableLayoutPanel2.Controls.Add(this.loginButton, 0, 0);
             this.tableLayoutPanel2.Controls.Add(this.nameUserTextBox, 2, 0);
             this.tableLayoutPanel2.Controls.Add(this.label1, 1, 0);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Right;
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(29, 3);
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(28, 3);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 1;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(484, 29);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(485, 29);
             this.tableLayoutPanel2.TabIndex = 3;
             // 
             // loginButton
@@ -217,7 +217,7 @@
             // nameUserTextBox
             // 
             this.nameUserTextBox.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.nameUserTextBox.Location = new System.Drawing.Point(335, 4);
+            this.nameUserTextBox.Location = new System.Drawing.Point(336, 4);
             this.nameUserTextBox.Name = "nameUserTextBox";
             this.nameUserTextBox.ReadOnly = true;
             this.nameUserTextBox.Size = new System.Drawing.Size(140, 20);
@@ -270,6 +270,7 @@
             this.namesTablesComboBox.Name = "namesTablesComboBox";
             this.namesTablesComboBox.Size = new System.Drawing.Size(119, 21);
             this.namesTablesComboBox.TabIndex = 1;
+            this.namesTablesComboBox.SelectedIndexChanged += new System.EventHandler(this.namesTablesComboBox_SelectedIndexChanged);
             // 
             // flowLayoutPanel2
             // 

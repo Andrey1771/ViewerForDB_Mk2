@@ -21,12 +21,15 @@ namespace Lab7_Bd_Mk2_Entity.Database
 
         LinkedList<bool> primaryKeysCurrentTable;
         LinkedList<string> nameColumnsCurrentTable;
+        LinkedList<string> typeColumnsCurrentTable;
 
         private void UpdateNameTables()
         {
             DataRowCollection dataRowCollection = GetRowsInRequest($"SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_CATALOG = '{nameDatabase}';").Rows;
-            if(nameTables != null)
+            if (nameTables != null)
                 nameTables.Clear();
+            else
+                nameTables = new LinkedList<string>();
             foreach (DataRow row in dataRowCollection)
             {
                 nameTables.AddLast(row[0].ToString());
@@ -35,15 +38,21 @@ namespace Lab7_Bd_Mk2_Entity.Database
 
         private bool UpdateCurrentTable(string nameTable)
         {
-            DataRowCollection columnsDataRowCollection = GetRowsInRequest($"SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE table_name = '{nameTable}'").Rows;
+            DataRowCollection columnsDataRowCollection = GetRowsInRequest($"SELECT COLUMN_NAME, DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE table_name = '{nameTable}'").Rows;
             if (nameColumnsCurrentTable == null)
                 nameColumnsCurrentTable = new LinkedList<string>();
             else
                 nameColumnsCurrentTable.Clear();
 
+            if (typeColumnsCurrentTable == null)
+                typeColumnsCurrentTable = new LinkedList<string>();
+            else
+                typeColumnsCurrentTable.Clear();
+
             foreach (DataRow row in columnsDataRowCollection)
             {
                 nameColumnsCurrentTable.AddLast(row[0].ToString());
+                typeColumnsCurrentTable.AddLast(row[1].ToString());
             }
 
             DataRowCollection primaryKeysDataRowCollection = GetRowsInRequest($"SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE OBJECTPROPERTY(OBJECT_ID(CONSTRAINT_SCHEMA + '.' + QUOTENAME(CONSTRAINT_NAME)), 'IsPrimaryKey') = 1 AND TABLE_NAME = '{nameTable}'").Rows;
@@ -57,20 +66,24 @@ namespace Lab7_Bd_Mk2_Entity.Database
                 primaryKeysCurrentTable = new LinkedList<bool>();
             else
                 primaryKeysCurrentTable.Clear();
-            
-            foreach(string var in nameColumnsCurrentTable)
+
+            foreach (string var in nameColumnsCurrentTable)
             {
-                if(nameColumnsCurrentTable.Find(var).Value != null)
+                bool ok = false;
+                foreach (string var2 in primaryColumnsNamesCollection)
                 {
-                    primaryKeysCurrentTable.AddLast(true);
+                    if (var == var2)
+                    {
+                        primaryKeysCurrentTable.AddLast(true);
+                        ok = true;
+                        break;
+                    }
                 }
-                else
-                {
+                if(!ok)
                     primaryKeysCurrentTable.AddLast(false);
-                }
             }
 
-            if(primaryKeysCurrentTable.Count != nameColumnsCurrentTable.Count)
+            if (primaryKeysCurrentTable.Count != nameColumnsCurrentTable.Count)
             {
                 myConsole.NewErrorMessage(@"Error \-_-/ primaryKeysCurrentTable.Count != nameColumnsCurrentTable.Count,
                                             UpdatePrimaryKeys(string tableName)");
@@ -155,7 +168,10 @@ namespace Lab7_Bd_Mk2_Entity.Database
         public bool MakeConnectDb(string login, string password)
         {
             currentNameUser = login;//DESKTOP-0U9RJHC\MSSQLSERVERNEW
-            connectionString = $"Server=.\\SQLEXPRESS; Data Source=DESKTOP-0U9RJHC\\MSSQLSERVERNEW; Database=MS_SQL_Lab_2; User ID={login}; Password={password};";
+            /////МЕНЯТЬ БД ДЛЯ НОВОГО СОЕДИНЕНИЯ
+            nameDatabase = "MS_SQL_Lab_2";
+            connectionString = $"Server=.\\SQLEXPRESS; Data Source=DESKTOP-0U9RJHC\\MSSQLSERVERNEW; Database='{nameDatabase}'; User ID='{login}'; Password='{password}';";
+            /////
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 try
@@ -174,10 +190,16 @@ namespace Lab7_Bd_Mk2_Entity.Database
             }
         }
 
-        public bool MakeNewLoginToUser(string name, string password)
+        public bool MakeNewLoginToUser(string name, string password, string role)
         {
-            MakeRequest($"EXEC [AddLoginUser]('{name}', '{password}')");
-            MakeRequest($"EXEC [AddRoleToUser]('{name}', 'Пассажир')");
+            MakeRequest($"EXEC sp_addlogin '{name}', '{password}', '{nameDatabase}'");
+            MakeRequest($"EXEC sp_adduser '{name}'");
+            MakeRequest($"EXEC sp_addrolemember '{role}', '{name}'");
+            /*
+             EXEC sp_addlogin @name, @password, 'MS_SQL_Lab_2'
+             EXEC sp_adduser @name
+             EXEC sp_addrolemember @role, @name
+             */
             return true; // да, проверки пока нет, TODO добавить проверку
         }
 
@@ -224,7 +246,7 @@ namespace Lab7_Bd_Mk2_Entity.Database
             {
                 object[] objects = row.ItemArray;
                 List<string> rowStr = new List<string>();
-                foreach(object cell in objects)
+                foreach (object cell in objects)
                 {
                     rowStr.Add(cell.ToString());
                 }
@@ -279,42 +301,79 @@ namespace Lab7_Bd_Mk2_Entity.Database
         public void InsertDataTable(string nameTable)
         {
             string request = "";
-            switch (nameTable)
+            UpdateCurrentTable(nameTable);
+
+            int i = 0;
+            string insertValues = "";
+            foreach (string var in nameColumnsCurrentTable)
             {
 
-                case "Рейс":
-                    request = "SELECT MAX([ID Рейса] + 1) FROM [Рейс]";
-                    if (GetRowsInRequest(request).Rows[0].Field<int?>(0) != null)
-                        MakeRequest($"INSERT INTO [Рейс] VALUES({GetRowsInRequest(request).Rows[0].Field<int?>(0)}, 1, 1, 'Siberia', 1903, '14-11-2020 08:00:33', '14-11-2020 13:10:03')");
-                    else
-                        MakeRequest($"INSERT INTO [Рейс] VALUES({1}, 1, 1, 'Siberia', 1903, '14-11-2020 08:00:33', '14-11-2020 13:10:03')");
-                    break;
-
-                case "Владелец":
-                    request = "SELECT MAX([ID Владельца] + 1) FROM [Владелец]";
-                    if (GetRowsInRequest(request).Rows[0].Field<int?>(0) != null)
-                        MakeRequest($"INSERT INTO [Владелец] VALUES({GetRowsInRequest(request).Rows[0].Field<int?>(0)}, 'Petr', 43, 811332, 'Kuznecsow')");
-                    else
-                        MakeRequest($"INSERT INTO [Владелец] VALUES({1}, 'Petr', 43, 811332, 'Kuznecsow')");
-                    break;
-
-                case "Авиакомпания":
-                    request = "SELECT MAX([ID Авиакомпании] + 1) FROM [Авиакомпания]";
-                    if (GetRowsInRequest(request).Rows[0].Field<int?>(0) != null)
-                        MakeRequest($"INSERT INTO[Авиакомпания] VALUES({GetRowsInRequest(request).Rows[0].Field<int?>(0)}, 'Airlines', 'AirportLocation', '07-12-1941', 100)");
-                    else
-                        MakeRequest($"INSERT INTO[Авиакомпания] VALUES({1}, 'Airlines', 'AirportLocation', '07-12-1941', 100)");
-                    break;
-
-                case "Самолет":
-                    request = "SELECT MAX([ID Самолета] + 1) FROM [Самолет]";
-                    if (GetRowsInRequest(request).Rows[0].Field<int?>(0) != null)
-                        MakeRequest($"INSERT INTO [Самолет] VALUES({GetRowsInRequest(request).Rows[0].Field<int?>(0)}, 1, 'Divine Wind', 'А6М2 Модель 21', '13-12-1941', 799999)");
-                    else
-                        MakeRequest($"INSERT INTO [Самолет] VALUES({1}, 1, 'Divine Wind', 'А6М2 Модель 21', '13-12-1941', 799999)");
-                    break;
+                request = $"SELECT MAX([{var.ToString()}]) FROM [{nameTable}]";
+                //request = $"SELECT MAX([{var.ToString()}]) FROM [{nameTable}]";
+                object obj = GetRowsInRequest(request).Rows[0].Field<object>(0);
+                if (obj != null)
+                {
+                    switch (typeColumnsCurrentTable.ElementAt(i))//Тут появляется ограничение на тип допустимых данных в таблицах
+                    {
+                        case "int":
+                            if(primaryKeysCurrentTable.ElementAt(i))
+                                insertValues += $"{(int)obj + 1},";
+                            else
+                                insertValues += $"{(int)obj},";
+                            break;
+                        case "nvarchar":
+                            insertValues += $"'{(string)obj}',";
+                            break;
+                        case "money":
+                            insertValues += $"'{0}',";//Да-да, не работает оно
+                            break;
+                        case "datetime":
+                            insertValues += $"'{obj.ToString()}',";
+                            break;
+                        case "date":
+                            insertValues += $"'{obj.ToString()}',";
+                            break;
+                        default:
+                            myConsole.NewErrorMessage(@"Error \-_-/ такого тип не поддерживается, InsertDataTable(string nameTable)");
+                            break;
+                    }
+                }
+                else
+                {
+                    switch (typeColumnsCurrentTable.ElementAt(i))
+                    {
+                        case "int":
+                            insertValues += $"{1},";
+                            break;
+                        case "nvarchar":
+                            insertValues += $"'{""}',";
+                            break;
+                        case "money":
+                            insertValues += $"{1},";
+                            break;
+                        case "datetime":
+                            insertValues += $"'{"2020-11-14 08:00:33.000"}',";
+                            break;
+                        case "date":
+                            insertValues += $"'{"2020-11-14"}',";
+                            break;
+                        default:
+                            myConsole.NewErrorMessage(@"Error \-_-/ такой тип не поддерживается, InsertDataTable(string nameTable)");
+                            break;
+                    }
+                }
+                ++i;
             }
+            insertValues = insertValues.Remove(insertValues.Count() - 1, 1);
+            MakeRequest($"INSERT INTO [{nameTable}] VALUES({insertValues})");
+            /*
+                MakeRequest($"INSERT INTO [{nameTable}] VALUES({GetRowsInRequest(request).Rows[0].Field<int?>(0)}, 1, 1, 'Siberia', 1903, '14-11-2020 08:00:33', '14-11-2020 13:10:03')");
+            else
+                MakeRequest($"INSERT INTO [Рейс] VALUES({1}, 1, 1, 'Siberia', 1903, '14-11-2020 08:00:33', '14-11-2020 13:10:03')");
+           */
         }
+
+
 
         public bool[] GetPrimaryKeysTable(string nameTable)
         {
