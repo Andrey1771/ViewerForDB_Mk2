@@ -41,17 +41,6 @@ namespace Lab7_Bd_Mk2_Entity
             db = new Database.Database(ref myConsole);
         }
 
-
-        private void splitContainer1_Panel2_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void flowLayoutPanel2_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
         private void UpdateFormRowsDataGridView(string tableName)
         {
             currentTableName = tableName;
@@ -76,11 +65,6 @@ namespace Lab7_Bd_Mk2_Entity
             }
         }
 
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
         void dataGridView1_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
             if (db.GetPrimaryKeysTable(currentTableName)[e.ColumnIndex] == true)
@@ -91,7 +75,6 @@ namespace Lab7_Bd_Mk2_Entity
             {
                 db.UpdateDataTable(currentTableName, dataGridView1.Columns[e.ColumnIndex].Name, dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString(), dataGridView1.Columns[0].Name, dataGridView1.Rows[e.RowIndex].Cells[0].Value.ToString());
             }
-                //UpdateRowsDataGrid1(currentTableName);
         }
 
         
@@ -99,11 +82,6 @@ namespace Lab7_Bd_Mk2_Entity
         {
             oldCellEditData = dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
             //accessIsShitPrimarykey = dataGridView1.Rows[e.RowIndex].Cells[0].Value.ToString();
-        }
-
-        private void fillColumnNameDataGridView()
-        {
-            dataGridView1.Columns.AddRange();
         }
 
         //dataGrid
@@ -136,11 +114,6 @@ namespace Lab7_Bd_Mk2_Entity
         {
             ChangeUsersDataForm changeUsersDataForm = new ChangeUsersDataForm(ref db);// Опять таки, сигналы неплохо бы зашли TODO Сделать с сигналами
             changeUsersDataForm.ShowDialog();
-        }
-
-        private void dataGridView1_CellContentClick_1(object sender, DataGridViewCellEventArgs e)
-        {
-
         }
 
         private void namesTablesComboBox_SelectedIndexChanged(object sender, EventArgs e)

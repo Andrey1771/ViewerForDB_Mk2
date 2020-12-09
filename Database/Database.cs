@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Data.SqlClient;
 using System.Data;
 using Lab7_Bd_Mk2_Entity.Database.Tables;
@@ -171,8 +169,8 @@ namespace Lab7_Bd_Mk2_Entity.Database
         {
             currentNameUser = login;//DESKTOP-0U9RJHC\MSSQLSERVERNEW
             /////МЕНЯТЬ БД ДЛЯ НОВОГО СОЕДИНЕНИЯ
-            nameDatabase = "Турфирма";
-            connectionString = $"Server=.\\SQLEXPRESS; Data Source=DESKTOP-TSOUA6L\\SQLEXPRESS; Database='{nameDatabase}'; User ID='{login}'; Password='{password}';";
+            nameDatabase = "MS_SQL_Lab_2";
+            connectionString = $"Server=.\\SQLEXPRESS; Data Source=DESKTOP-0U9RJHC\\MSSQLSERVERNEW; Database='{nameDatabase}'; User ID='{login}'; Password='{password}';";
             /////
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -183,6 +181,7 @@ namespace Lab7_Bd_Mk2_Entity.Database
                 }
                 catch (Exception e)
                 {
+                    
                     connectionString = @"Error \-_-/";
                     myConsole.NewErrorMessage($"Error \\-_-/ Connection failed, {e.Message}");
                     return connected = false;
@@ -326,7 +325,7 @@ namespace Lab7_Bd_Mk2_Entity.Database
                             insertValues += $"'{(string)obj}',";
                             break;
                         case "money":
-                            insertValues += $"'{1}',";//Да-да, не работает оно
+                            insertValues += $"'{1}',";
                             break;
                         case "datetime":
                             insertValues += $"'{obj.ToString()}',";
@@ -368,7 +367,8 @@ namespace Lab7_Bd_Mk2_Entity.Database
                 }
                 ++i;
             }
-            insertValues = insertValues.Remove(insertValues.Count() - 1, 1);
+            if(insertValues.Count() > 0)
+                insertValues = insertValues.Remove(insertValues.Count() - 1, 1);
             MakeRequest($"INSERT INTO [{nameTable}] VALUES({insertValues})");
         }
 

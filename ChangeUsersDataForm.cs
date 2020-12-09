@@ -30,11 +30,6 @@ namespace Lab7_Bd_Mk2_Entity
             db.GetMyConsole().SetConsoleOutput(ref oldOutputTextBox);
         }
 
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void updateUsersButton_Click(object sender, EventArgs e)
         {
             UpdateUsersDatabaseRowsDataGridView();

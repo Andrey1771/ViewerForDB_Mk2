@@ -34,14 +34,13 @@
             this.label2 = new System.Windows.Forms.Label();
             this.loginTextBox = new System.Windows.Forms.TextBox();
             this.passwordTextBox = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.roleTextBox = new System.Windows.Forms.TextBox();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.label3 = new System.Windows.Forms.Label();
-            this.answerLabel = new System.Windows.Forms.Label();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.loginButton = new System.Windows.Forms.Button();
             this.registrationButton = new System.Windows.Forms.Button();
-            this.label4 = new System.Windows.Forms.Label();
-            this.roleTextBox = new System.Windows.Forms.TextBox();
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
@@ -128,12 +127,29 @@
             this.passwordTextBox.Size = new System.Drawing.Size(233, 20);
             this.passwordTextBox.TabIndex = 3;
             // 
+            // label4
+            // 
+            this.label4.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(20, 110);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(32, 13);
+            this.label4.TabIndex = 4;
+            this.label4.Text = "Роль";
+            // 
+            // roleTextBox
+            // 
+            this.roleTextBox.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.roleTextBox.Location = new System.Drawing.Point(81, 107);
+            this.roleTextBox.Name = "roleTextBox";
+            this.roleTextBox.Size = new System.Drawing.Size(233, 20);
+            this.roleTextBox.TabIndex = 5;
+            // 
             // tableLayoutPanel3
             // 
             this.tableLayoutPanel3.ColumnCount = 1;
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel3.Controls.Add(this.label3, 0, 0);
-            this.tableLayoutPanel3.Controls.Add(this.answerLabel, 0, 1);
             this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel3.Location = new System.Drawing.Point(57, 3);
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
@@ -154,19 +170,6 @@
             this.label3.Size = new System.Drawing.Size(273, 28);
             this.label3.TabIndex = 0;
             this.label3.Text = "Здесь можно войти в аккаунт или добавить нового пользователя";
-            // 
-            // answerLabel
-            // 
-            this.answerLabel.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.answerLabel.AutoSize = true;
-            this.answerLabel.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.answerLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.answerLabel.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.answerLabel.Location = new System.Drawing.Point(129, 95);
-            this.answerLabel.Name = "answerLabel";
-            this.answerLabel.Size = new System.Drawing.Size(64, 15);
-            this.answerLabel.TabIndex = 1;
-            this.answerLabel.Text = "Результат:";
             // 
             // splitContainer1
             // 
@@ -205,24 +208,6 @@
             this.registrationButton.UseVisualStyleBackColor = true;
             this.registrationButton.Click += new System.EventHandler(this.registrationButton_Click);
             // 
-            // label4
-            // 
-            this.label4.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(20, 110);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(32, 13);
-            this.label4.TabIndex = 4;
-            this.label4.Text = "Роль";
-            // 
-            // roleTextBox
-            // 
-            this.roleTextBox.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.roleTextBox.Location = new System.Drawing.Point(81, 107);
-            this.roleTextBox.Name = "roleTextBox";
-            this.roleTextBox.Size = new System.Drawing.Size(233, 20);
-            this.roleTextBox.TabIndex = 5;
-            // 
             // LoginForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -255,7 +240,6 @@
         private System.Windows.Forms.TextBox passwordTextBox;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label answerLabel;
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.Button loginButton;
         private System.Windows.Forms.Button registrationButton;

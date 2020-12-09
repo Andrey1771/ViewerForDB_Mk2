@@ -122,7 +122,6 @@
             this.label1.Size = new System.Drawing.Size(130, 13);
             this.label1.TabIndex = 1;
             this.label1.Text = "Таблица пользователей";
-            this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // consoleLogTextBox
             // 
