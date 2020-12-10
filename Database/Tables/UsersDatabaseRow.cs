@@ -8,6 +8,7 @@ namespace Lab7_Bd_Mk2_Entity.Database.Tables
 {
     public class UsersDatabaseRow
     {
+        //Данные колонок таблицы пользователей
         string name;
         int principal_id;
         string type;
@@ -32,6 +33,7 @@ namespace Lab7_Bd_Mk2_Entity.Database.Tables
             authentication_type_desc = aauthentication_type_desc;
         }
 
+        //Функция получения массива строк нашего класса
         public string[] GetArrayStr()
         {
             string[] arr = { name, principal_id.ToString(), type, type_desc, default_schema_name,
@@ -39,6 +41,7 @@ namespace Lab7_Bd_Mk2_Entity.Database.Tables
             return arr;
         }
 
+        //Константа, отвечающая за названия колонок
         public static string[] namesColumn = new string[] { "name", "principal_id", "type",
         "type_desc", "default_schema_name", "create_date", "modify_date",
             "authentication_type_desc" };

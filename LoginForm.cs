@@ -20,12 +20,14 @@ namespace Lab7_Bd_Mk2_Entity
             db = adb;
         }
 
+        //Вызывающая функция при получении сигнала при нажатии на кнопку входа, совершаем запрос нашей БД
         private void loginButton_Click(object sender, EventArgs e)
         {
             db.MakeConnectDb(loginTextBox.Text, passwordTextBox.Text);
             Close();
         }
 
+        //Вызывающая функция при получении сигнала при нажатии на кнопку регистрации, совершаем запрос нашей БД
         private void registrationButton_Click(object sender, EventArgs e)
         {
             db.MakeNewLoginToUser(loginTextBox.Text, passwordTextBox.Text, roleTextBox.Text);

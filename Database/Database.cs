@@ -21,6 +21,7 @@ namespace Lab7_Bd_Mk2_Entity.Database
         LinkedList<string> nameColumnsCurrentTable;
         LinkedList<string> typeColumnsCurrentTable;
 
+        //Обновление названия таблиц, данные берем из запроса
         private void UpdateNameTables()
         {
             DataRowCollection dataRowCollection = GetRowsInRequest($"SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_CATALOG = '{nameDatabase}';").Rows;
@@ -42,6 +43,7 @@ namespace Lab7_Bd_Mk2_Entity.Database
 
         }
 
+        //Обновление текущей переданной по названию таблицы через запрос 
         private bool UpdateCurrentTable(string nameTable)
         {
             DataRowCollection columnsDataRowCollection = GetRowsInRequest($"SELECT COLUMN_NAME, DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE table_name = '{nameTable}'").Rows;
@@ -99,33 +101,38 @@ namespace Lab7_Bd_Mk2_Entity.Database
             return true;
         }
 
-
+        //Получение названия колонок с помощью двусвязного списка
         public LinkedList<string> GetColumnsTable(string nameTable)
         {
             UpdateCurrentTable(nameTable);
             return nameColumnsCurrentTable;
         }
 
+        //Получение названия таблиц нашей БД
         public LinkedList<string> GetNameTables()
         {
             return nameTables;
         }
 
+        //Конструктор, что тут сказать
         public Database(ref MyConsole.MyConsole amyConsole)
         {
             SetConsole(ref amyConsole);
         }
 
+        //Установка консоли
         public void SetConsole(ref MyConsole.MyConsole amyConsole)
         {
             myConsole = amyConsole;
         }
 
+        //Получение текущей консоли через ссылку 
         public ref MyConsole.MyConsole GetMyConsole()
         {
             return ref myConsole;
         }
 
+        //Открытие соединения с БД и проверка на открытость
         public void OpenConnection(SqlConnection connection)
         {
             try
@@ -140,6 +147,7 @@ namespace Lab7_Bd_Mk2_Entity.Database
             }
         }
 
+        //Получение названия таблиц БД в двусвязном списку
         public LinkedList<string> GetNamesTablesDB()
         {
             UpdateNameTables();
@@ -148,6 +156,7 @@ namespace Lab7_Bd_Mk2_Entity.Database
 
         //SELECT * FROM sys.database_principals where (type='S' or type = 'U')
 
+        //Получение таблицы пользователей через двусвязный список, элементы которого объекты UsersDatabaseRow
         public LinkedList<UsersDatabaseRow> GetUsersTable()
         {
             LinkedList<UsersDatabaseRow> usersNames = new LinkedList<UsersDatabaseRow>();
@@ -165,6 +174,7 @@ namespace Lab7_Bd_Mk2_Entity.Database
             return usersNames;
         }
 
+        //Создание соединения с нашей БД
         public bool MakeConnectDb(string login, string password)
         {
             currentNameUser = login;//DESKTOP-0U9RJHC\MSSQLSERVERNEW
@@ -191,20 +201,23 @@ namespace Lab7_Bd_Mk2_Entity.Database
             }
         }
 
+        //Создание нового логина пользователя, совершаем запрос к нашей БД
         public bool MakeNewLoginToUser(string name, string password, string role)
         {
             MakeRequest($"EXEC sp_addlogin '{name}', '{password}', '{nameDatabase}'");
             MakeRequest($"EXEC sp_adduser '{name}'");
             MakeRequest($"EXEC sp_addrolemember '{role}', '{name}'");
 
-            return true; // да, проверки пока нет, TODO добавить проверку
+            return true;
         }
 
+        //Смена роли пользователя, делаем запрос к нашей БД
         public void ChangeRoleUser(string name, string role)
         {
             MakeRequest($"EXEC [ChangeRole]('{name}', '{role}')");
         }
 
+        //Создание запроса к нашей БД
         private void MakeRequest(string request)
         {
             try
@@ -233,6 +246,7 @@ namespace Lab7_Bd_Mk2_Entity.Database
             }
         }
 
+        //Получение строк таблицы по названию таблицы, совершаем запрос нашей БД
         public LinkedList<List<string>> GetRowsTable(string nameTable)
         {
             LinkedList<List<string>> rowsTableLinkList = new LinkedList<List<string>>();
@@ -252,6 +266,8 @@ namespace Lab7_Bd_Mk2_Entity.Database
 
             return rowsTableLinkList;
         }
+
+        //Получаем результат в виде таблицы, в зависимости от запроса
         private DataTable GetRowsInRequest(string request)
         {
             DataTable dataTable = new DataTable();
@@ -284,17 +300,20 @@ namespace Lab7_Bd_Mk2_Entity.Database
         }
 
         //он должен быть приватный и не он должен использоваться TODO пофиксить это
+        //Обновляем данные в нашей таблице, совершаем запрос нашей БД
         public void UpdateDataTable(string nameTable, string columnName, string newValue, string namePrimaryId, string primaryId)
         {
             MakeRequest($"UPDATE [{nameTable}] SET [{columnName}] = '{newValue}' WHERE [{namePrimaryId}] = {primaryId};");
         }
 
+        //Удаляем данные в нашей таблице, совершаем запрос нашей БД
         public void DeleteDataTable(string nameTable, string namePrimaryId, string primaryId)
         {
             MakeRequest($"DELETE FROM [{nameTable}] WHERE [{namePrimaryId}] = {primaryId};");
         }
 
-        //Функция и лучше не комментить
+        //Функция, работает, и лучше не комментить, TODO Переделать
+        //Добавляем данные в нашу таблицу, совершаем запрос нашей БД
         public void InsertDataTable(string nameTable)
         {
             string request = "";
@@ -321,7 +340,7 @@ namespace Lab7_Bd_Mk2_Entity.Database
                         case "nvarchar":
                             insertValues += $"'{(string)obj}',";
                             break;
-                        case "varchar"://SELECT name FROM sys.views
+                        case "varchar":
                             insertValues += $"'{(string)obj}',";
                             break;
                         case "money":
@@ -373,7 +392,7 @@ namespace Lab7_Bd_Mk2_Entity.Database
         }
 
 
-
+        //Получение первичных ключей нашей таблицы
         public bool[] GetPrimaryKeysTable(string nameTable)
         {
             UpdateCurrentTable(nameTable);

@@ -13,27 +13,32 @@ namespace Lab7_Bd_Mk2_Entity.MyConsole
         TextBox outputTextBox;
         const bool StipidRev = true;// you
 
+        //Конструктор, вуху
         public MyConsole(ref TextBox aoutputTextBox)
         {
             SetConsoleOutput(ref aoutputTextBox);
         }
 
+        //Получение ссылки на используемый элемент для вывода данных в какую-то строку
         public ref TextBox GetOutputTextBox()
         {
             return ref outputTextBox;
         }
 
+        //Установка выводимого элемента со ссылкой
         public void SetConsoleOutput(ref TextBox aoutputTextBox)
         {
             outputTextBox = aoutputTextBox;
         }
 
+        //Отправка сообщения в элемент класса консоли, а также элемента вывода формы
         public void NewMessage(string message)
         {
             Console.WriteLine(message);
             outputTextBox.Text += (message + Environment.NewLine);
         }
 
+        //Отправка сообщения ошибки в элемент класса консоли, а также элемента вывода формы
         public void NewErrorMessage(string message)
         {
             Console.Error.WriteLine(message);

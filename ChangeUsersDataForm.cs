@@ -30,11 +30,13 @@ namespace Lab7_Bd_Mk2_Entity
             db.GetMyConsole().SetConsoleOutput(ref oldOutputTextBox);
         }
 
+        //Вызывающая функция при получении сигнала при нажатии на кнопку обновления пользователей, совершаем запрос нашей БД
         private void updateUsersButton_Click(object sender, EventArgs e)
         {
             UpdateUsersDatabaseRowsDataGridView();
         }
 
+        //Обновляем пользователей в нашей таблице, совершаем запрос нашей БД
         public void UpdateUsersDatabaseRowsDataGridView()
         {
             if (db.connected)

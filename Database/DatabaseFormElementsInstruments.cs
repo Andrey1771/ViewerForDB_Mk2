@@ -6,22 +6,25 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Lab7_Bd_Mk2_Entity.Database;
 using Lab7_Bd_Mk2_Entity.Database.Tables;
+using System.Data;
 
 namespace Lab7_Bd_Mk2_Entity.Database
 {
     class DatabaseFormElementsInstruments
     {
         MyConsole.MyConsole myConsole;
+
         public DatabaseFormElementsInstruments(ref MyConsole.MyConsole amyConsole)
         {
             SetConsole(ref amyConsole);
         }
 
+        //Установка используемой консоли
         public void SetConsole(ref MyConsole.MyConsole amyConsole)
         {
             myConsole = amyConsole;
         }
-
+        //Очистка данных из БД
         public void clearDataGridView(DataGridView dataGridView)
         {
             try
@@ -36,23 +39,29 @@ namespace Lab7_Bd_Mk2_Entity.Database
         }
 
         //В идеале надо было разделить отображение от данных и перенести некоторые функции в отдельный класс
-
+        //Обновление данных в таблице
         private void UpdateRowsDataGridView(DataGridView dataGridView, string[] nameColumns, LinkedList<string[]> dataRows)
         {
+            BindingSource bindingSource = new BindingSource();
+            DataTable dataTable = new DataTable();
+            LinkedList<DataColumn> dataColumns = new LinkedList<DataColumn>();
+
+            foreach(var name in nameColumns)
+            {
+                dataColumns.AddLast(new DataColumn(name));
+            }
             
-            foreach (string name in nameColumns)
+            dataTable.Columns.AddRange(dataColumns.ToArray());
+            foreach (var row in dataRows)
             {
-                DataGridViewTextBoxColumn dataGridViewColumn = new DataGridViewTextBoxColumn();
-                dataGridViewColumn.HeaderText = name;
-                dataGridViewColumn.Name = name;
-                dataGridView.Columns.Add(dataGridViewColumn);
+                dataTable.Rows.Add(row);
             }
-            foreach (string[] row in dataRows)
-            {
-                dataGridView.Rows.Add(row);
-            }
+            
+            bindingSource.DataSource = dataTable;
+            dataGridView.DataSource = bindingSource;
         }
 
+        //Обновление данных в таблице Users
         public void UpdateUsersDatabaseRowsDataGridView(DataGridView dataGridView, Database db)
         {
             clearDataGridView(dataGridView);
@@ -67,6 +76,7 @@ namespace Lab7_Bd_Mk2_Entity.Database
             UpdateRowsDataGridView(dataGridView, UsersDatabaseRow.namesColumn, dataRows);
         }
 
+        //Обновление данных в конкретной таблице
         public void UpdateDatabaseRowsDataGridView(string tableName, DataGridView dataGridView, Database db)
         {
             clearDataGridView(dataGridView);
@@ -79,7 +89,6 @@ namespace Lab7_Bd_Mk2_Entity.Database
                 dataRows.AddLast(row.ToArray());
             }
             UpdateRowsDataGridView(dataGridView, db.GetColumnsTable(tableName).ToArray(), dataRows);
-
         }
     }
 }

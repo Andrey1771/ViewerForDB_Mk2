@@ -41,6 +41,7 @@ namespace Lab7_Bd_Mk2_Entity
             db = new Database.Database(ref myConsole);
         }
 
+        //Обновление строк формы нашей таблицы
         private void UpdateFormRowsDataGridView(string tableName)
         {
             currentTableName = tableName;
@@ -48,6 +49,7 @@ namespace Lab7_Bd_Mk2_Entity
             inst.UpdateDatabaseRowsDataGridView(tableName, dataGridView1, db);
         }
 
+        //Вызывающая функция при получении сигнала о нажатии на кнопку входа, обновляем данные таблицы
         private void loginButton_Click(object sender, EventArgs e)
         {
             LoginForm loginForm = new LoginForm(ref db);// Опять таки, сигналы неплохо бы зашли TODO Сделать с сигналами
@@ -65,6 +67,7 @@ namespace Lab7_Bd_Mk2_Entity
             }
         }
 
+        //Вызывающая функция при получении сигнала о окончании редактирования ячейки, обновляем данные
         void dataGridView1_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
             if (db.GetPrimaryKeysTable(currentTableName)[e.ColumnIndex] == true)
@@ -77,7 +80,7 @@ namespace Lab7_Bd_Mk2_Entity
             }
         }
 
-        
+        //Вызывающая функция при получении сигнала о начале редактирования ячейки, сохраняем значение изменяемой ячейки
         void dataGridView1_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
         {
             oldCellEditData = dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
@@ -85,22 +88,26 @@ namespace Lab7_Bd_Mk2_Entity
         }
 
         //dataGrid
+        //Вызывающая функция при получении сигнала о нажатии на кнопку, обновляем нашу таблицу
         private void updateTableButton_Click(object sender, EventArgs e)
         {
             UpdateFormRowsDataGridView(namesTablesComboBox.SelectedItem?.ToString());//? - проверка на null )) i love С# <3
         }
 
+        //Вызывающая функция при получении сигнала о нажатии на строку, запоминаем текущий индекс строки
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             selectedRowIndex = e.RowIndex;
         }
 
         //dataGrid
+        //Вызывающая функция при получении сигнала о нажатии на кнопку добавления строки, совершаем запрос нашей БД
         private void insertRowButton_Click(object sender, EventArgs e)
         {
             db.InsertDataTable(currentTableName);
         }
 
+        //Вызывающая функция при получении сигнала о нажатии на кнопку удаления, совершаем запрос нашей БД на удаление
         private void deleteSelectedRowButton_Click_1(object sender, EventArgs e)
         {
             if (selectedRowIndex < dataGridView1.Rows.Count - 1)
@@ -110,12 +117,14 @@ namespace Lab7_Bd_Mk2_Entity
             }
         }
 
+        //Вызывающая функция при получении сигнала о нажатии на кнопку изменения роли пользователя, вызываем нашу форму
         private void changeRoleUser_Click(object sender, EventArgs e)
         {
             ChangeUsersDataForm changeUsersDataForm = new ChangeUsersDataForm(ref db);// Опять таки, сигналы неплохо бы зашли TODO Сделать с сигналами
             changeUsersDataForm.ShowDialog();
         }
 
+        //Вызывающая функция при получении сигнала о выделении конкректного индекса в нашем комбобоксе, совершаем запрос нашей БД
         private void namesTablesComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             UpdateFormRowsDataGridView(namesTablesComboBox.SelectedItem?.ToString());//? - проверка на null )) i love С# <3
