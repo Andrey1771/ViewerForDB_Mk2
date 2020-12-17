@@ -116,6 +116,11 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Properties\2020.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Properties\5c2dc21dd5fd116812be44b5.jpg" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

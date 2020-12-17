@@ -11,15 +11,15 @@ namespace Lab7_Bd_Mk2_Entity.MyConsole
     public class MyConsole
     {
         TextBox outputTextBox;
-        const bool StipidRev = true;// you
+        const bool StipidRev = true;
 
-        //Конструктор, вуху
+        //Конструктор
         public MyConsole(ref TextBox aoutputTextBox)
         {
             SetConsoleOutput(ref aoutputTextBox);
         }
 
-        //Получение ссылки на используемый элемент для вывода данных в какую-то строку
+        //Получение ссылки на используемый элемент для вывода данных в строку
         public ref TextBox GetOutputTextBox()
         {
             return ref outputTextBox;
@@ -65,13 +65,6 @@ namespace Lab7_Bd_Mk2_Entity.MyConsole
                 if (matches.Count > 0)
                 {
                     outputTextBox.Text += ("Ожидалось значение в верном формате");
-                }
-
-                regex = new Regex("переполнению");
-                matches = regex.Matches(s);
-                if (matches.Count > 0)
-                {
-                    outputTextBox.Text += ("Значение было переполнено");
                 }
 
                 regex = new Regex("Конфликт инструкции");

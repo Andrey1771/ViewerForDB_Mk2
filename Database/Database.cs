@@ -179,9 +179,12 @@ namespace Lab7_Bd_Mk2_Entity.Database
         {
             currentNameUser = login;//DESKTOP-0U9RJHC\MSSQLSERVERNEW
             /////МЕНЯТЬ БД ДЛЯ НОВОГО СОЕДИНЕНИЯ
-            nameDatabase = "MS_SQL_Lab_2";
-            connectionString = $"Server=.\\SQLEXPRESS; Data Source=DESKTOP-0U9RJHC\\MSSQLSERVERNEW; Database='{nameDatabase}'; User ID='{login}'; Password='{password}';";
+            nameDatabase = "DB_Maria"; 
+            connectionString = $"Server=.\\SQLEXPRESS; AttachDbFilename=D:\\SQL\\MSSQL13.SQLEXPRESS\\MSSQL\\DATA\\DB_Maria.mdf; Database='{nameDatabase}'; Trusted_Connection=Yes; User ID='{login}'; Password='{password}'; ";
             /////
+            ///
+
+
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 try
@@ -192,8 +195,8 @@ namespace Lab7_Bd_Mk2_Entity.Database
                 catch (Exception e)
                 {
                     
-                    connectionString = @"Error \-_-/";
-                    myConsole.NewErrorMessage($"Error \\-_-/ Connection failed, {e.Message}");
+                    connectionString = @"Error";
+                    myConsole.NewErrorMessage($"Error! Connection failed, {e.Message}, {e.Data}");
                     return connected = false;
                 }
 
@@ -337,10 +340,19 @@ namespace Lab7_Bd_Mk2_Entity.Database
                             else
                                 insertValues += $"{(int)obj},";
                             break;
+                        case "real":
+                            insertValues += $"{(int)obj},";
+                            break;
                         case "nvarchar":
                             insertValues += $"'{(string)obj}',";
                             break;
                         case "varchar":
+                            insertValues += $"'{(string)obj}',";
+                            break;
+                        case "char":
+                            insertValues += $"'{(string)obj}',";
+                            break;
+                        case "nchar":
                             insertValues += $"'{(string)obj}',";
                             break;
                         case "money":
@@ -364,10 +376,19 @@ namespace Lab7_Bd_Mk2_Entity.Database
                         case "int":
                             insertValues += $"{1},";
                             break;
+                        case "real":
+                            insertValues += $"{1},";
+                            break;
                         case "nvarchar":
                             insertValues += $"'{""}',";
                             break;
                         case "varchar":
+                            insertValues += $"'{""}',";
+                            break;
+                        case "char":
+                            insertValues += $"'{""}',";
+                            break;
+                        case "nchar":
                             insertValues += $"'{""}',";
                             break;
                         case "money":

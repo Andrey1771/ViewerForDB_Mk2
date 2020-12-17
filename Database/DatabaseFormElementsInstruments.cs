@@ -34,11 +34,9 @@ namespace Lab7_Bd_Mk2_Entity.Database
             }
             catch (Exception e)
             {
-                myConsole.NewErrorMessage($"Error \\-_-/ clearDataGridView(DataGridView dataGridView), {e.Message}");
+                myConsole.NewErrorMessage($"Error! clearDataGridView(DataGridView dataGridView), {e.Message}");
             }
         }
-
-        //В идеале надо было разделить отображение от данных и перенести некоторые функции в отдельный класс
         //Обновление данных в таблице
         private void UpdateRowsDataGridView(DataGridView dataGridView, string[] nameColumns, LinkedList<string[]> dataRows)
         {
