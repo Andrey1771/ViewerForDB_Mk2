@@ -1,45 +1,30 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
 
-namespace Lab7_Bd_Mk2_Entity.MyConsole
+namespace Lab7.MyConsole
 {
-    public class MyConsole
+    public class Log
     {
         TextBox outputTextBox;
         const bool StipidRev = true;
 
         //Конструктор
-        public MyConsole(ref TextBox aoutputTextBox)
+        public Log(ref TextBox aoutputTextBox)
         {
-            SetConsoleOutput(ref aoutputTextBox);
+            SetOutput(ref aoutputTextBox);
         }
 
-        //Получение ссылки на используемый элемент для вывода данных в строку
-        public ref TextBox GetOutputTextBox()
-        {
-            return ref outputTextBox;
-        }
-
-        //Установка выводимого элемента со ссылкой
-        public void SetConsoleOutput(ref TextBox aoutputTextBox)
-        {
-            outputTextBox = aoutputTextBox;
-        }
-
+        
         //Отправка сообщения в элемент класса консоли, а также элемента вывода формы
-        public void NewMessage(string message)
+        public void Message(string message)
         {
             Console.WriteLine(message);
             outputTextBox.Text += (message + Environment.NewLine);
         }
 
         //Отправка сообщения ошибки в элемент класса консоли, а также элемента вывода формы
-        public void NewErrorMessage(string message)
+        public void ErrorMessage(string message)
         {
             Console.Error.WriteLine(message);
 
@@ -81,5 +66,17 @@ namespace Lab7_Bd_Mk2_Entity.MyConsole
 
             outputTextBox.Text += Environment.NewLine;
         }
+        //Получение ссылки на используемый элемент для вывода данных в строку
+        public ref TextBox GetTextBox()
+        {
+            return ref outputTextBox;
+        }
+
+        //Установка выводимого элемента со ссылкой
+        public void SetOutput(ref TextBox aoutputTextBox)
+        {
+            outputTextBox = aoutputTextBox;
+        }
+
     }
 }
