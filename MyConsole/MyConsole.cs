@@ -46,11 +46,13 @@ namespace Lab7_Bd_Mk2_Entity.MyConsole
             if (StipidRev)
             {
                 string s = message;
+                bool ok = true;
                 Regex regex = new Regex("Запрещено разрешение");
                 MatchCollection matches = regex.Matches(s);
                 if (matches.Count > 0)
                 {
                     outputTextBox.Text += ("Нет прав на редактирование");
+                    ok = false;
                 }
 
                 regex = new Regex("Не удается вставить повторяющийся ключ в объект");
@@ -58,6 +60,7 @@ namespace Lab7_Bd_Mk2_Entity.MyConsole
                 if (matches.Count > 0)
                 {
                     outputTextBox.Text += ("Данный ID уже занят");
+                    ok = false;
                 }
 
                 regex = new Regex("Ошибка преобразования");
@@ -65,6 +68,7 @@ namespace Lab7_Bd_Mk2_Entity.MyConsole
                 if (matches.Count > 0)
                 {
                     outputTextBox.Text += ("Ожидалось значение в верном формате");
+                    ok = false;
                 }
 
                 regex = new Regex("переполнению");
@@ -72,6 +76,7 @@ namespace Lab7_Bd_Mk2_Entity.MyConsole
                 if (matches.Count > 0)
                 {
                     outputTextBox.Text += ("Значение было переполнено");
+                    ok = false;
                 }
 
                 regex = new Regex("Конфликт инструкции");
@@ -79,7 +84,19 @@ namespace Lab7_Bd_Mk2_Entity.MyConsole
                 if (matches.Count > 0)
                 {
                     outputTextBox.Text += ("Действие невозможно из-за конфликтов с другими таблицами");
+                    ok = false;
                 }
+
+                regex = new Regex("Не удалось выполнить вход");
+                matches = regex.Matches(s);
+                if (matches.Count > 0)
+                {
+                    outputTextBox.Text += ("Неверные данные входа");
+                    ok = false;
+                }
+
+                if (ok)
+                    outputTextBox.Text += (message);
             }
             else
             {

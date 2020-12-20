@@ -34,7 +34,7 @@ namespace Lab7_Bd_Mk2_Entity.Database
                 nameTables.AddLast(row[0].ToString());
             }
 
-            DataRowCollection nameViewDataRowCollection = GetRowsInRequest($"SELECT name FROM sys.views").Rows;
+            DataRowCollection nameViewDataRowCollection = GetRowsInRequest($"SELECT name FROM sys.views;").Rows;
 
             foreach (DataRow row in nameViewDataRowCollection)
             {
@@ -43,10 +43,42 @@ namespace Lab7_Bd_Mk2_Entity.Database
 
         }
 
+        //Защита от SQL инъекций, если символ отсутствует из разрешеннных, метод вернет false
+        private bool IsLegalQuery(string strText)
+        {
+            bool islegal = false;
+            char symbol = ' ';
+            if (strText.Length > 0)
+            {
+                char[] legalchars = @"«ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzАБВГДЕЁЖЗИЙКЛМНОПРСТУ
+    ФХЦЧШЩЭЫЪЬЮЯабвгдеёжзийклмнопрстуфхцчшщэъьыюя01234567890., „".ToCharArray();
+                islegal = true;
+                // посимвольно проверяем пришедший string
+                for (int i = 0; i < strText.Length; i++)
+                {
+                    // если символ в строке отсутсвет в массиве разрешенных, возвращаем false
+                    if (strText.LastIndexOfAny(legalchars, i, 1) < 0)
+                    {
+                        islegal = false;
+                        symbol = strText[i];
+                        break;
+                    }
+                }
+            }
+            if (!islegal)
+                myConsole.NewErrorMessage($"Error \\-_-/ Использованы недопустимые символ, Строка: {strText}, Символ: {symbol}");
+            return islegal;
+        }
+
         //Обновление текущей переданной по названию таблицы через запрос 
         private bool UpdateCurrentTable(string nameTable)
         {
-            DataRowCollection columnsDataRowCollection = GetRowsInRequest($"SELECT COLUMN_NAME, DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE table_name = '{nameTable}'").Rows;
+            if (!IsLegalQuery(nameTable))
+            {
+                return false;
+            }
+
+            DataRowCollection columnsDataRowCollection = GetRowsInRequest($"SELECT COLUMN_NAME, DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE table_name = '{nameTable}';").Rows;
             if (nameColumnsCurrentTable == null)
                 nameColumnsCurrentTable = new LinkedList<string>();
             else
@@ -63,7 +95,7 @@ namespace Lab7_Bd_Mk2_Entity.Database
                 typeColumnsCurrentTable.AddLast(row[1].ToString());
             }
 
-            DataRowCollection primaryKeysDataRowCollection = GetRowsInRequest($"SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE OBJECTPROPERTY(OBJECT_ID(CONSTRAINT_SCHEMA + '.' + QUOTENAME(CONSTRAINT_NAME)), 'IsPrimaryKey') = 1 AND TABLE_NAME = '{nameTable}'").Rows;
+            DataRowCollection primaryKeysDataRowCollection = GetRowsInRequest($"SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE OBJECTPROPERTY(OBJECT_ID(CONSTRAINT_SCHEMA + '.' + QUOTENAME(CONSTRAINT_NAME)), 'IsPrimaryKey') = 1 AND TABLE_NAME = '{nameTable}';").Rows;
             LinkedList<string> primaryColumnsNamesCollection = new LinkedList<string>();
             foreach (DataRow row in primaryKeysDataRowCollection)
             {
@@ -160,7 +192,7 @@ namespace Lab7_Bd_Mk2_Entity.Database
         public LinkedList<UsersDatabaseRow> GetUsersTable()
         {
             LinkedList<UsersDatabaseRow> usersNames = new LinkedList<UsersDatabaseRow>();
-            DataRowCollection dataRowCollection = GetRowsInRequest("SELECT name, principal_id, type, type_desc, default_schema_name, create_date, modify_date, authentication_type_desc FROM sys.database_principals WHERE (type='S' or type = 'U')").Rows;
+            DataRowCollection dataRowCollection = GetRowsInRequest("SELECT name, principal_id, type, type_desc, default_schema_name, create_date, modify_date, authentication_type_desc FROM sys.database_principals WHERE (type='S' or type = 'U');").Rows;
             foreach (DataRow row in dataRowCollection)
             {
                 string rowFifth = "";
@@ -179,8 +211,12 @@ namespace Lab7_Bd_Mk2_Entity.Database
         {
             currentNameUser = login;//DESKTOP-0U9RJHC\MSSQLSERVERNEW
             /////МЕНЯТЬ БД ДЛЯ НОВОГО СОЕДИНЕНИЯ
-            nameDatabase = "MS_SQL_Lab_2";
-            connectionString = $"Server=.\\SQLEXPRESS; Data Source=DESKTOP-0U9RJHC\\MSSQLSERVERNEW; Database='{nameDatabase}'; User ID='{login}'; Password='{password}';";
+            nameDatabase = "DB_Kris";
+            if(!IsLegalQuery(login) || !IsLegalQuery(password))
+            {
+                return false;
+            }
+            connectionString = $"Server=.\\SQLEXPRESS; Data Source=DESKTOP-A2TI617\\SQLEXPRESS; Database='{nameDatabase}'; User ID='{login}'; Password='{password}';";
             /////
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -204,9 +240,13 @@ namespace Lab7_Bd_Mk2_Entity.Database
         //Создание нового логина пользователя, совершаем запрос к нашей БД
         public bool MakeNewLoginToUser(string name, string password, string role)
         {
-            MakeRequest($"EXEC sp_addlogin '{name}', '{password}', '{nameDatabase}'");
-            MakeRequest($"EXEC sp_adduser '{name}'");
-            MakeRequest($"EXEC sp_addrolemember '{role}', '{name}'");
+            if (!IsLegalQuery(name) || !IsLegalQuery(password) || !IsLegalQuery(role))
+            {
+                return false;
+            }
+            MakeRequest($"EXEC sp_addlogin '{name}', '{password}', '{nameDatabase}';");
+            MakeRequest($"EXEC sp_adduser '{name}';");
+            MakeRequest($"EXEC sp_addrolemember '{role}', '{name}';");
 
             return true;
         }
@@ -214,7 +254,11 @@ namespace Lab7_Bd_Mk2_Entity.Database
         //Смена роли пользователя, делаем запрос к нашей БД
         public void ChangeRoleUser(string name, string role)
         {
-            MakeRequest($"EXEC [ChangeRole]('{name}', '{role}')");
+            if (!IsLegalQuery(name) || !IsLegalQuery(role))
+            {
+                return;
+            }
+            MakeRequest($"EXEC [ChangeRole]('{name}', '{role}');");
         }
 
         //Создание запроса к нашей БД
@@ -252,7 +296,7 @@ namespace Lab7_Bd_Mk2_Entity.Database
             LinkedList<List<string>> rowsTableLinkList = new LinkedList<List<string>>();
 
             LinkedList<UsersDatabaseRow> usersNames = new LinkedList<UsersDatabaseRow>();
-            DataRowCollection dataRowCollection = GetRowsInRequest($"SELECT * FROM {nameTable}").Rows;
+            DataRowCollection dataRowCollection = GetRowsInRequest($"SELECT * FROM {nameTable};").Rows;
             foreach (DataRow row in dataRowCollection)
             {
                 object[] objects = row.ItemArray;
@@ -303,12 +347,20 @@ namespace Lab7_Bd_Mk2_Entity.Database
         //Обновляем данные в нашей таблице, совершаем запрос нашей БД
         public void UpdateDataTable(string nameTable, string columnName, string newValue, string namePrimaryId, string primaryId)
         {
+            if (!IsLegalQuery(nameTable) || !IsLegalQuery(columnName) || !IsLegalQuery(newValue) || !IsLegalQuery(namePrimaryId) || !IsLegalQuery(primaryId))
+            {
+                return;
+            }
             MakeRequest($"UPDATE [{nameTable}] SET [{columnName}] = '{newValue}' WHERE [{namePrimaryId}] = {primaryId};");
         }
 
         //Удаляем данные в нашей таблице, совершаем запрос нашей БД
         public void DeleteDataTable(string nameTable, string namePrimaryId, string primaryId)
         {
+            if (!IsLegalQuery(nameTable) || !IsLegalQuery(namePrimaryId) || !IsLegalQuery(primaryId))
+            {
+                return;
+            }
             MakeRequest($"DELETE FROM [{nameTable}] WHERE [{namePrimaryId}] = {primaryId};");
         }
 
@@ -316,6 +368,11 @@ namespace Lab7_Bd_Mk2_Entity.Database
         //Добавляем данные в нашу таблицу, совершаем запрос нашей БД
         public void InsertDataTable(string nameTable)
         {
+            if (!IsLegalQuery(nameTable))
+            {
+                return;
+            }
+
             string request = "";
             UpdateCurrentTable(nameTable);
 
@@ -324,7 +381,7 @@ namespace Lab7_Bd_Mk2_Entity.Database
             foreach (string var in nameColumnsCurrentTable)
             {
 
-                request = $"SELECT MAX([{var.ToString()}]) FROM [{nameTable}]";
+                request = $"SELECT MAX([{var.ToString()}]) FROM [{nameTable}];";
                 //request = $"SELECT MAX([{var.ToString()}]) FROM [{nameTable}]";
                 object obj = GetRowsInRequest(request).Rows[0].Field<object>(0);
                 if (obj != null)
@@ -350,6 +407,9 @@ namespace Lab7_Bd_Mk2_Entity.Database
                             insertValues += $"'{obj.ToString()}',";
                             break;
                         case "date":
+                            insertValues += $"'{obj.ToString()}',";
+                            break;
+                        case "time":
                             insertValues += $"'{obj.ToString()}',";
                             break;
                         default:
@@ -379,6 +439,9 @@ namespace Lab7_Bd_Mk2_Entity.Database
                         case "date":
                             insertValues += $"'{"2020-11-14"}',";
                             break;
+                        case "time":
+                            insertValues += $"'{"11:11:11"}',";
+                            break;
                         default:
                             myConsole.NewErrorMessage(@"Error \-_-/ такой тип не поддерживается, InsertDataTable(string nameTable)");
                             break;
@@ -388,7 +451,7 @@ namespace Lab7_Bd_Mk2_Entity.Database
             }
             if(insertValues.Count() > 0)
                 insertValues = insertValues.Remove(insertValues.Count() - 1, 1);
-            MakeRequest($"INSERT INTO [{nameTable}] VALUES({insertValues})");
+            MakeRequest($"INSERT INTO [{nameTable}] VALUES({insertValues});");
         }
 
 
