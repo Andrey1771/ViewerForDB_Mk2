@@ -46,6 +46,7 @@ namespace Lab7
         {
             UsersWindow changeUsersDataForm = new UsersWindow(ref db);// Опять таки, сигналы неплохо бы зашли TODO Сделать с сигналами
             changeUsersDataForm.ShowDialog();
+            db.GetMyConsole().SetOutput(ref consoleLogTextBox);
         }
 
         //Вызывающая функция при получении сигнала о нажатии на строку, запоминаем текущий индекс строки
