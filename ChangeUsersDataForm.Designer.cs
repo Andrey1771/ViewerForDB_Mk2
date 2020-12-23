@@ -2,7 +2,7 @@
 {
     partial class ChangeUsersDataForm
     {
-        //private Database.Database db;
+        //private Controller.Controller db;
         private System.ComponentModel.IContainer components = null;
 
         /// <summary>

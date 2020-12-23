@@ -139,7 +139,7 @@
             this.tableLayoutPanel4.ColumnCount = 3;
             this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 43.75F));
             this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 56.25F));
-            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 166F));
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 168F));
             this.tableLayoutPanel4.Controls.Add(this.updateTableButton, 2, 0);
             this.tableLayoutPanel4.Controls.Add(this.insertRowButton, 1, 0);
             this.tableLayoutPanel4.Controls.Add(this.deleteSelectedRowButton, 0, 0);
@@ -156,9 +156,9 @@
             // 
             this.updateTableButton.AutoSize = true;
             this.updateTableButton.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.updateTableButton.Location = new System.Drawing.Point(292, 3);
+            this.updateTableButton.Location = new System.Drawing.Point(291, 3);
             this.updateTableButton.Name = "updateTableButton";
-            this.updateTableButton.Size = new System.Drawing.Size(161, 28);
+            this.updateTableButton.Size = new System.Drawing.Size(162, 28);
             this.updateTableButton.TabIndex = 0;
             this.updateTableButton.Text = "Обновление";
             this.updateTableButton.UseVisualStyleBackColor = true;
@@ -170,7 +170,7 @@
             this.insertRowButton.Dock = System.Windows.Forms.DockStyle.Fill;
             this.insertRowButton.Location = new System.Drawing.Point(129, 3);
             this.insertRowButton.Name = "insertRowButton";
-            this.insertRowButton.Size = new System.Drawing.Size(157, 28);
+            this.insertRowButton.Size = new System.Drawing.Size(156, 28);
             this.insertRowButton.TabIndex = 1;
             this.insertRowButton.Text = "Добавление";
             this.insertRowButton.UseVisualStyleBackColor = true;

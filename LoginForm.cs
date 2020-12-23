@@ -7,14 +7,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Lab7_Bd.Database;
+using Lab7_Bd.Controller;
 
 namespace Lab7_Bd
 {
     public partial class LoginForm : Form
     {
-        private Database.Controller db;
-        public LoginForm(ref Database.Controller adb)// лучше решить сигналами
+        private Controller.Controller db;
+        public LoginForm(ref Controller.Controller adb)// лучше решить сигналами
         {
             InitializeComponent();
             db = adb;
@@ -22,7 +22,7 @@ namespace Lab7_Bd
 
         private void loginButton_Click(object sender, EventArgs e)
         {
-            db.MakeConnectDb(loginTextBox.Text, passwordTextBox.Text);
+            db.MakeConnect(loginTextBox.Text, passwordTextBox.Text);
             Close();
         }
 

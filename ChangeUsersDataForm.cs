@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Windows.Forms;
-using Lab7_Bd.Database;
+using Lab7_Bd.Controller;
 
 namespace Lab7_Bd
 {
     public partial class ChangeUsersDataForm : Form
     {
-        private Controller db;
+        private Controller.Controller db;
         private TextBox oldOutputTextBox;
 
-        public ChangeUsersDataForm(ref Controller adb)
+        public ChangeUsersDataForm(ref Controller.Controller adb)
         {
             db = adb;
             InitializeComponent();
