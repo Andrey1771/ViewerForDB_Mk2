@@ -7,14 +7,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Lab7_Bd_Mk2_Entity.Database;
+using Lab7_Bd.Database;
 
-namespace Lab7_Bd_Mk2_Entity
+namespace Lab7_Bd
 {
     public partial class LoginForm : Form
     {
-        private Database.Database db;
-        public LoginForm(ref Database.Database adb)// лучше решить сигналами
+        private Database.Controller db;
+        public LoginForm(ref Database.Controller adb)// лучше решить сигналами
         {
             InitializeComponent();
             db = adb;

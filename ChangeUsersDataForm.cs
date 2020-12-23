@@ -1,22 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using Lab7_Bd_Mk2_Entity.Database;
+using Lab7_Bd.Database;
 
-namespace Lab7_Bd_Mk2_Entity
+namespace Lab7_Bd
 {
     public partial class ChangeUsersDataForm : Form
     {
-        private Database.Database db;
+        private Controller db;
         private TextBox oldOutputTextBox;
 
-        public ChangeUsersDataForm(ref Database.Database adb)
+        public ChangeUsersDataForm(ref Controller adb)
         {
             db = adb;
             InitializeComponent();
@@ -43,7 +36,7 @@ namespace Lab7_Bd_Mk2_Entity
         {
             if (db.connected)
             {
-                DatabaseFormElementsInstruments inst = new DatabaseFormElementsInstruments(ref db.GetMyConsole());
+                ControllerUtilities inst = new ControllerUtilities(ref db.GetMyConsole());
                 inst.UpdateUsersDatabaseRowsDataGridView(dataGridView1, db);
             }
         }

@@ -1,61 +1,32 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using Lab7_Bd_Mk2_Entity.Database;
+using Lab7_Bd.Database;
 
-namespace Lab7_Bd_Mk2_Entity
+namespace Lab7_Bd
 {
-
-    //Важное пояснение:
-    //Данная программа работает с БД !!!SQL Server!!!, возможно, любыми, возможно...
-    //главная проблема может возникнуть при добавлении данных и их изменении,
-    //тк данная прога не содержить модели для gridView, мой косяк, забыл, мог бы и сделать,
-    //но она же работает?) (Использовать паттерн MVC)
-    //РАБОТАЕТ ТОЛЬКО С ТАКИМИ ПОЛЯМИ int, nvarchar, varchar, money, datetime, date, Если есть другие
-    //Нужно расширить switch в Database
-    //у money есть баг при добавлении
-    //Для смены подключаемой БД идти в  Database => public bool MakeConnectDb(string login, string password), 
-    //Там все написано и очевидно, удачи!
     public partial class MainForm : Form
     {
 
-        private Database.Database db;
+        private Database.Controller db;
         private string currentTableName;
         private int selectedRowIndex = 0;
 
-        private MyConsole.MyConsole myConsole;
+        private MyConsole.Messager myConsole;
 
         public object oldCellEditData;
 
         public MainForm()
         {
             InitializeComponent();
-            myConsole = new MyConsole.MyConsole(ref consoleLogTextBox);
-            db = new Database.Database(ref myConsole);
-        }
-
-
-        private void splitContainer1_Panel2_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void flowLayoutPanel2_Paint(object sender, PaintEventArgs e)
-        {
-
+            myConsole = new MyConsole.Messager(ref consoleLogTextBox);
+            db = new Database.Controller(ref myConsole);
         }
 
         private void UpdateFormRowsDataGridView(string tableName)
         {
             currentTableName = tableName;
-            DatabaseFormElementsInstruments inst = new DatabaseFormElementsInstruments(ref myConsole);
+            ControllerUtilities inst = new ControllerUtilities(ref myConsole);
             inst.UpdateDatabaseRowsDataGridView(tableName, dataGridView1, db);
         }
 
@@ -75,11 +46,6 @@ namespace Lab7_Bd_Mk2_Entity
             }
         }
 
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
         void dataGridView1_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
             if (db.GetPrimaryKeysTable(currentTableName)[e.ColumnIndex] == true)
@@ -90,19 +56,12 @@ namespace Lab7_Bd_Mk2_Entity
             {
                 db.UpdateDataTable(currentTableName, dataGridView1.Columns[e.ColumnIndex].Name, dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString(), dataGridView1.Columns[0].Name, dataGridView1.Rows[e.RowIndex].Cells[0].Value.ToString());
             }
-                //UpdateRowsDataGrid1(currentTableName);
         }
 
         
         void dataGridView1_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
         {
             oldCellEditData = dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
-            //accessIsShitPrimarykey = dataGridView1.Rows[e.RowIndex].Cells[0].Value.ToString();
-        }
-
-        private void fillColumnNameDataGridView()
-        {
-            dataGridView1.Columns.AddRange();
         }
 
         //dataGrid
@@ -127,7 +86,6 @@ namespace Lab7_Bd_Mk2_Entity
             if (selectedRowIndex < dataGridView1.Rows.Count - 1)
             {
                 db.DeleteDataTable(currentTableName, dataGridView1.Columns[0].Name, dataGridView1.Rows[selectedRowIndex].Cells[0].Value.ToString());
-                //UpdateRowsDataGrid1(currentTableName);
             }
         }
 
@@ -137,19 +95,10 @@ namespace Lab7_Bd_Mk2_Entity
             changeUsersDataForm.ShowDialog();
         }
 
-        private void dataGridView1_CellContentClick_1(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
 
         private void namesTablesComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             UpdateFormRowsDataGridView(namesTablesComboBox.SelectedItem?.ToString());//? - проверка на null )) i love С# <3
-        }
-
-        private void MainForm_Load(object sender, EventArgs e)
-        {
-
         }
     }
 }

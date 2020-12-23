@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Lab7_Bd_Mk2_Entity.Properties {
+namespace Lab7_Bd.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]

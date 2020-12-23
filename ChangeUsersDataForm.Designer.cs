@@ -1,4 +1,4 @@
-﻿namespace Lab7_Bd_Mk2_Entity
+﻿namespace Lab7_Bd
 {
     partial class ChangeUsersDataForm
     {
