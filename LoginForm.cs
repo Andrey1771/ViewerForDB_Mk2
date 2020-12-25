@@ -7,9 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Lab7_Bd_Mk2_Entity.Database;
+using Stas.Database;
 
-namespace Lab7_Bd_Mk2_Entity
+namespace Stas
 {
     public partial class LoginForm : Form
     {
@@ -30,7 +30,7 @@ namespace Lab7_Bd_Mk2_Entity
         //Вызывающая функция при получении сигнала при нажатии на кнопку регистрации, совершаем запрос нашей БД
         private void registrationButton_Click(object sender, EventArgs e)
         {
-            db.MakeNewLoginToUser(loginTextBox.Text, passwordTextBox.Text, roleTextBox.Text);
+            db.MakeNewLoginToUser(loginTextBox.Text, passwordTextBox.Text, passwordTextBox.Text);
         }
     }
 }

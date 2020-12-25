@@ -8,9 +8,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Lab7_Bd_Mk2_Entity.Database;
+using Stas.Database;
 
-namespace Lab7_Bd_Mk2_Entity
+namespace Stas
 {
     public partial class MainForm : Form
     {
