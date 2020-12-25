@@ -6,16 +6,6 @@ using Lab7.Database;
 namespace Lab7
 {
 
-    //Важное пояснение:
-    //Данная программа работает с БД !!!SQL Server!!!, возможно, любыми, возможно...
-    //главная проблема может возникнуть при добавлении данных и их изменении,
-    //тк данная прога не содержить модели для gridView, мой косяк, забыл, мог бы и сделать,
-    //но она же работает?) (Использовать паттерн MVC)
-    //РАБОТАЕТ ТОЛЬКО С ТАКИМИ ПОЛЯМИ int, nvarchar, money, datetime, date, Если есть другие
-    //Нужно расширить switch в Database
-    //у money есть баг при добавлении
-    //Для смены подключаемой БД идти в  Database => public bool MakeConnectDb(string login, string password), 
-    //Там все написано и очевидно, удачи!
     public partial class MainWindow : Form
     {
         private MyConsole.Log myConsole;

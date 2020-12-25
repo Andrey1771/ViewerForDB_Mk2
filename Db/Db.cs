@@ -29,7 +29,7 @@ namespace Lab7.Database
             if (strText.Length > 0)
             {
                 char[] legalchars = @"«ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzАБВГДЕЁЖЗИЙКЛМНОПРСТУ
-    ФХЦЧШЩЭЫЪЬЮЯабвгдеёжзийклмнопрстуфхцчшщэъьыюя01234567890., „".ToCharArray();
+    ФХЦЧШЩЭЫЪЬЮЯабвгдеёжзийклмнопрстуфхцчшщэъьыюя01234567890., „_".ToCharArray();
                 islegal = true;
                 // посимвольно проверяем пришедший string
                 for (int i = 0; i < strText.Length; i++)
@@ -226,8 +226,8 @@ namespace Lab7.Database
 
             currentNameUser = login;//DESKTOP-0U9RJHC\MSSQLSERVERNEW
             /////МЕНЯТЬ БД ДЛЯ НОВОГО СОЕДИНЕНИЯ
-            nameDatabase = "DB_Maria"; 
-            connectionString = $"Server=.\\SQLEXPRESS; AttachDbFilename=D:\\SQL\\MSSQL13.SQLEXPRESS\\MSSQL\\DATA\\DB_Maria.mdf; Database='{nameDatabase}'; Trusted_Connection=Yes; User ID='{login}'; Password='{password}'; ";
+            nameDatabase = "BD21"; 
+            connectionString = $"Server=.\\SQLEXPRESS; Data Source=DESKTOP-A2TI617\\SQLEXPRESS; Database='{nameDatabase}'; User ID='{login}'; Password='{password}'; ";
             /////
             ///
 
@@ -423,6 +423,9 @@ namespace Lab7.Database
                         case "date":
                             insertValues += $"'{obj.ToString()}',";
                             break;
+                        case "time":
+                            insertValues += $"'{obj.ToString()}',";
+                            break;
                         default:
                             myConsole.ErrorMessage(@"Error такого тип не поддерживается, InsertDataTable(string nameTable)");
                             break;
@@ -458,6 +461,9 @@ namespace Lab7.Database
                             break;
                         case "date":
                             insertValues += $"'{"2020-11-14"}',";
+                            break;
+                        case "time":
+                            insertValues += $"'{"08:00:33.000"}',";
                             break;
                         default:
                             myConsole.ErrorMessage(@"Error такой тип не поддерживается, InsertDataTable(string nameTable)");

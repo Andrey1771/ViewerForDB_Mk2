@@ -82,6 +82,7 @@ namespace Lab7.MyConsole
 
             outputTextBox.Text += Environment.NewLine;
         }
+
         //Получение ссылки на используемый элемент для вывода данных в строку
         public ref TextBox GetTextBox()
         {
